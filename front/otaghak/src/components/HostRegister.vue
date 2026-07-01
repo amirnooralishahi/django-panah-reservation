@@ -32,6 +32,13 @@
           <button class="btn-cancel" @click="resetForm">پاک کردن</button>
         </div>
 
+        <div v-if="successMessage" class="alert alert-success mt-3">
+          {{ successMessage }}
+        </div>
+        <div v-if="errorMessage" class="alert alert-danger mt-3">
+          {{ errorMessage }}
+        </div>
+
         <div class="note text-muted mt-2">
           تیم پناه پس از بررسی درخواست با شما تماس خواهد گرفت. اطلاعات شما محرمانه نگه داشته می‌شود.
         </div>
@@ -42,27 +49,45 @@
 
 <script setup>
 import { ref } from 'vue'
+import { sendHostRequest } from '@/services/api'
 
 const name = ref('')
 const contact = ref('')
 const propertyTitle = ref('')
 const description = ref('')
+const errorMessage = ref('')
+const successMessage = ref('')
 
 const resetForm = () => {
   name.value = ''
   contact.value = ''
   propertyTitle.value = ''
   description.value = ''
+  errorMessage.value = ''
+  successMessage.value = ''
 }
 
-const submitHost = () => {
-  // در اینجا درخواست را به API ارسال کنید. فعلاً پیام ساده نمایش می‌دهیم.
+const submitHost = async () => {
+  errorMessage.value = ''
+  successMessage.value = ''
+
   if (!name.value || !contact.value) {
-    alert('لطفاً نام و شماره تماس/ایمیل را وارد کنید.')
+    errorMessage.value = 'لطفاً نام و شماره تماس/ایمیل را وارد کنید.'
     return
   }
-  alert('درخواست میزبان با موفقیت ثبت شد. تیم ما بزودی با شما تماس خواهد گرفت.')
-  resetForm()
+
+  try {
+    await sendHostRequest({
+      name: name.value,
+      contact: contact.value,
+      propertyTitle: propertyTitle.value,
+      description: description.value,
+    })
+    successMessage.value = 'درخواست میزبان با موفقیت به سرور ارسال شد.'
+    resetForm()
+  } catch (error) {
+    errorMessage.value = error.message || 'خطا در ارسال درخواست. دوباره تلاش کنید.'
+  }
 }
 </script>
 

@@ -16,12 +16,13 @@ def create_some_atrribute(sender,instance ,created, **kwargs):
 
 @receiver(post_save, sender=Payment)
 def create_record_reserve(sender, instance, created, **kwargs):
-    check= instance.tuition != None
-    if  (check):
-            RecordReserve.objects.create(
-                passenger=instance.passenger,
-                room=instance.reservation.room,
-                payment=instance
-            )
-            
+    if instance.tuition is not None:
+        RecordReserve.objects.get_or_create(
+            payment=instance,
+            defaults={
+                'passenger': instance.passenger,
+                'owner_room': instance.reservation.room.owner,
+                'room': instance.reservation.room,
+            },
+        )
 

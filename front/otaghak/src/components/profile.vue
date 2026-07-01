@@ -1,301 +1,147 @@
 <template>
-    <Header/>
-    <div class="body  ">
-        <div class="prof w-100 border p-3 d-flex justify-content-center">
-        <div class="prof-container d-flex border ">
-            <div class="name d-flex gap-2 mt-4">
-                <img alt="otaghak.com" loading="lazy" width="72" height="72" decoding="async" data-nimg="1" class="HostFullProfile_userImg__0sl4l image" style="color: transparent;" src="https://core.otaghak.com/api/v1/Media/images/3423955/1/1" >
-                <div class="d-flex flex-column gap-2">
-                    <span class="fw-bold first">پری رجبی</span>
-                    <span class="text ">عضویت از 26 آبان 1403</span>
-                    <span>تهران</span>
-                </div>
-                <div class="about d-flex flex-column gap-3 p-2">
-                    <span class="fw-bold">درباره من </span>
-                    <span class="text">این کاربر هنوز مطلبی درباره خود ننوشته است </span>
-                </div>
-            </div>
-            <div class="d-flex flex-column gap-3 mt-3">
-               
-          
-            
-            </div>
-            
-        </div>
-         </div>
-         <div class="home d-flex justify-content-center w-100">
-            <div class="home-container d-flex border flex-column">
-            <div class="d-flex align-items-start gap-2">
-                <span class="fw-bold">اقامتگاه های این میزبان </span>
-                <span class="text fw-bold">
-                    (1 اقامتگاه)
-                </span>
-            </div>
-            <room style="direction: ltr;" />
-        </div>
-         </div>
-         <div class="comment d-flex justify-content-center w-100">
-            <div class="comment-container  d-flex flex-column gap-5">
-                <div class="header d-flex gap-2">
-                    <span class="fw-bold "> نظرات کاربران برای این میزبان </span>
-                    <span class="text">(19نظر)</span>
-                </div>
-                <div class="contain d-flex flex-column gap-4">
-                    <div class="d-flex gap-3  justify-content-between">
-                        <div class="box border rounded-4 p-3 d-flex flex-column gap-2">
-                                            <div class="name d-flex justify-content-between">
-                                                <div class="d-flex gap-2 align-items-center">
-                                                    <div class="person fs-5 d-flex align-items-center justify-content-center">
-                                                        <i class="bi bi-person"></i>  
-                                                    </div>
-                                                    <div class="d-flex flex-column gap-2">
-                                                        <span class="first fw-bold">سعید</span>
-                                                        <span class="his">اسفند 1403</span>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex gap-2 align-items-center">
-                                                    <span><i class="bi bi-star-fill"></i></span>
-                                                    <span class="fs-5">3.33</span>
-                                                </div>
-                                            </div>
-                                            <span class="nor mt-3">درکل متوسط بود </span>
-                                            <div class="line"></div>
-                                            <div class="answerMiz d-flex flex-column gap-3">
-                                                <span class="mizban">
-                                                    پاسخ میزبان
-                                                </span>
-                                                <span class="text">
-                                                    با احترام شما میتونستید به مواردی همچون: تمیزی و امنیت واحد تحویل به موقع خوش برخوردی میزبان احساس آرامش و بی آزاری همسایگان رو قیدکنید! برای ما تمیزی داخل خونه هنگام تحویل مهمه ن راه پله ها
-                                                </span>
-                                            </div>
-                        </div>
-                        <div class="box border rounded-4 p-3 d-flex flex-column gap-2">
-                                            <div class="name d-flex justify-content-between">
-                                                <div class="d-flex gap-2 align-items-center">
-                                                    <div class="person fs-5 d-flex align-items-center justify-content-center">
-                                                        <i class="bi bi-person"></i>  
-                                                    </div>
-                                                    <div class="d-flex flex-column gap-2">
-                                                        <span class="first fw-bold">سعید</span>
-                                                        <span class="his">اسفند 1403</span>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex gap-2 align-items-center">
-                                                    <span><i class="bi bi-star-fill"></i></span>
-                                                    <span class="fs-5">3.33</span>
-                                                </div>
-                                            </div>
-                                            <span class="nor mt-3">درکل متوسط بود </span>
-                                            <div class="line"></div>
-                                            <div class="answerMiz d-flex flex-column gap-3">
-                                                <span class="mizban">
-                                                    پاسخ میزبان
-                                                </span>
-                                                <span class="text">
-                                                    با احترام شما میتونستید به مواردی همچون: تمیزی و امنیت واحد تحویل به موقع خوش برخوردی میزبان احساس آرامش و بی آزاری همسایگان رو قیدکنید! برای ما تمیزی داخل خونه هنگام تحویل مهمه ن راه پله ها
-                                                </span>
-                                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex gap-3  justify-content-between">
-                        <div class="box border rounded-4 p-3 d-flex flex-column gap-2">
-                            <div class="name d-flex justify-content-between">
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="person fs-5 d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-person"></i>  
-                                    </div>
-                                    <div class="d-flex flex-column gap-2">
-                                        <span class="first fw-bold">سعید</span>
-                                        <span class="his">اسفند 1403</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <span><i class="bi bi-star-fill"></i></span>
-                                    <span class="fs-5">3.33</span>
-                                </div>
-                            </div>
-                            <span class="nor mt-3">درکل متوسط بود </span>
-                            <div class="line"></div>
-                            <div class="answerMiz d-flex flex-column gap-3">
-                                <span class="mizban">
-                                    پاسخ میزبان
-                                </span>
-                                <span class="text">
-                                    با احترام شما میتونستید به مواردی همچون: تمیزی و امنیت واحد تحویل به موقع خوش برخوردی میزبان احساس آرامش و بی آزاری همسایگان رو قیدکنید! برای ما تمیزی داخل خونه هنگام تحویل مهمه ن راه پله ها
-                                </span>
-                            </div>
-                        </div>
-                        <div class="box border rounded-4 p-3 d-flex flex-column gap-2">
-                            <div class="name d-flex justify-content-between">
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="person fs-5 d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-person"></i>  
-                                    </div>
-                                    <div class="d-flex flex-column gap-2">
-                                        <span class="first fw-bold">سعید</span>
-                                        <span class="his">اسفند 1403</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <span><i class="bi bi-star-fill"></i></span>
-                                    <span class="fs-5">3.33</span>
-                                </div>
-                            </div>
-                            <span class="nor mt-3">درکل متوسط بود </span>
-                            <div class="line"></div>
-                            <div class="answerMiz d-flex flex-column gap-3">
-                                <span class="mizban">
-                                    پاسخ میزبان
-                                </span>
-                                <span class="text">
-                                    با احترام شما میتونستید به مواردی همچون: تمیزی و امنیت واحد تحویل به موقع خوش برخوردی میزبان احساس آرامش و بی آزاری همسایگان رو قیدکنید! برای ما تمیزی داخل خونه هنگام تحویل مهمه ن راه پله ها
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-100 d-flex justify-content-center">
-                        <button v-if="!more"  @click="moreFunc" class="but border rounded-3 p-3 d-flex align-items-center bg-white">
-                            <span class="fw-bold">مشاهده بیشتر</span>
-                            <span><i class="bi bi-caret-down"></i></span>
- 
-                        </button>
-                    </div>
-                    <div v-if="more" class="contain d-flex flex-column  gap-4" >
-                    <div class="d-flex gap-3  justify-content-between">
-                        <div class="box border rounded-4 p-3 d-flex flex-column gap-2">
-                            <div class="name d-flex justify-content-between">
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="person fs-5 d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-person"></i>  
-                                    </div>
-                                    <div class="d-flex flex-column gap-2">
-                                        <span class="first fw-bold">سعید</span>
-                                        <span class="his">اسفند 1403</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <span><i class="bi bi-star-fill"></i></span>
-                                    <span class="fs-5">3.33</span>
-                                </div>
-                            </div>
-                            <span class="nor mt-3">درکل متوسط بود </span>
-                            <div class="line"></div>
-                            <div class="answerMiz d-flex flex-column gap-3">
-                                <span class="mizban">
-                                    پاسخ میزبان
-                                </span>
-                                <span class="text">
-                                    با احترام شما میتونستید به مواردی همچون: تمیزی و امنیت واحد تحویل به موقع خوش برخوردی میزبان احساس آرامش و بی آزاری همسایگان رو قیدکنید! برای ما تمیزی داخل خونه هنگام تحویل مهمه ن راه پله ها
-                                </span>
-                            </div>
-                        </div>
-                        <div class="box border rounded-4 p-3 d-flex flex-column gap-2">
-                            <div class="name d-flex justify-content-between">
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="person fs-5 d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-person"></i>  
-                                    </div>
-                                    <div class="d-flex flex-column gap-2">
-                                        <span class="first fw-bold">سعید</span>
-                                        <span class="his">اسفند 1403</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <span><i class="bi bi-star-fill"></i></span>
-                                    <span class="fs-5">3.33</span>
-                                </div>
-                            </div>
-                            <span class="nor mt-3">درکل متوسط بود </span>
-                            <div class="line"></div>
-                            <div class="answerMiz d-flex flex-column gap-3">
-                                <span class="mizban">
-                                    پاسخ میزبان
-                                </span>
-                                <span class="text">
-                                    با احترام شما میتونستید به مواردی همچون: تمیزی و امنیت واحد تحویل به موقع خوش برخوردی میزبان احساس آرامش و بی آزاری همسایگان رو قیدکنید! برای ما تمیزی داخل خونه هنگام تحویل مهمه ن راه پله ها
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex gap-3  justify-content-between">
-                        <div class="box border rounded-4 p-3 d-flex flex-column gap-2">
-                            <div class="name d-flex justify-content-between">
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="person fs-5 d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-person"></i>  
-                                    </div>
-                                    <div class="d-flex flex-column gap-2">
-                                        <span class="first fw-bold">سعید</span>
-                                        <span class="his">اسفند 1403</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <span><i class="bi bi-star-fill"></i></span>
-                                    <span class="fs-5">3.33</span>
-                                </div>
-                            </div>
-                            <span class="nor mt-3">درکل متوسط بود </span>
-                            <div class="line"></div>
-                            <div class="answerMiz d-flex flex-column gap-3">
-                                <span class="mizban">
-                                    پاسخ میزبان
-                                </span>
-                                <span class="text">
-                                    با احترام شما میتونستید به مواردی همچون: تمیزی و امنیت واحد تحویل به موقع خوش برخوردی میزبان احساس آرامش و بی آزاری همسایگان رو قیدکنید! برای ما تمیزی داخل خونه هنگام تحویل مهمه ن راه پله ها
-                                </span>
-                            </div>
-                        </div>
-                        <div class="box border rounded-4 p-3 d-flex flex-column gap-2">
-                            <div class="name d-flex justify-content-between">
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="person fs-5 d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-person"></i>  
-                                    </div>
-                                    <div class="d-flex flex-column gap-2">
-                                        <span class="first fw-bold">سعید</span>
-                                        <span class="his">اسفند 1403</span>
-                                    </div>
-                                </div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <span><i class="bi bi-star-fill"></i></span>
-                                    <span class="fs-5">3.33</span>
-                                </div>
-                            </div>
-                            <span class="nor mt-3">درکل متوسط بود </span>
-                            <div class="line"></div>
-                            <div class="answerMiz d-flex flex-column gap-3">
-                                <span class="mizban">
-                                    پاسخ میزبان
-                                </span>
-                                <span class="text">
-                                    با احترام شما میتونستید به مواردی همچون: تمیزی و امنیت واحد تحویل به موقع خوش برخوردی میزبان احساس آرامش و بی آزاری همسایگان رو قیدکنید! برای ما تمیزی داخل خونه هنگام تحویل مهمه ن راه پله ها
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-         </div>
-
+  <Header />
+  <div class="container py-5" dir="rtl">
+    <div class="mb-3">
+      <router-link to="/" class="btn btn-outline-secondary">بازگشت به صفحه اصلی</router-link>
     </div>
- <Footer/>
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+          <div>
+            <h2 class="fw-bold mb-2">{{ isHost ? 'پروفایل میزبان' : 'پروفایل کاربر' }}</h2>
+            <p class="text-muted mb-0">{{ isHost ? 'اطلاعات میزبان و مدیریت اقامتگاه‌ها' : 'اطلاعات شخصی و رزروهای شما' }}</p>
+          </div>
+          <span class="badge rounded-pill" :class="isHost ? 'bg-success' : 'bg-primary'">{{ isHost ? 'میزبان' : 'کاربر عادی' }}</span>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="card border-0 bg-light">
+              <div class="card-body">
+                <h5 class="fw-bold mb-3">اطلاعات پروفایل</h5>
+
+                <div v-if="error" class="alert alert-warning">{{ error }}</div>
+                <div v-else>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label">نام کاربری</label>
+                      <input v-model="profile.username" class="form-control" type="text" disabled />
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">کد ملی</label>
+                      <input v-model="profile.NationalCode" class="form-control" type="text" disabled />
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">ایمیل</label>
+                      <input v-model="profile.email" class="form-control" type="email" />
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">شماره همراه</label>
+                      <input v-model="profile.phone" class="form-control" type="text" />
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">شغل</label>
+                      <input v-model="profile.Job_title" class="form-control" type="text" />
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">شناسه پروفایل</label>
+                      <input v-model="profile.slug" class="form-control" type="text" disabled />
+                    </div>
+                  </div>
+
+                  <button class="btn btn-success mt-4" @click="saveProfile">ذخیره تغییرات</button>
+                  <div v-if="message" class="alert alert-success mt-3 mb-0">{{ message }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card border-0 bg-dark text-white">
+              <div class="card-body">
+                <h5 class="fw-bold mb-3">نمای کلی</h5>
+                <ul class="list-unstyled mb-0">
+                  <li class="mb-2">نام کاربری: {{ profile.username || '---' }}</li>
+                  <li class="mb-2">ایمیل: {{ profile.email || '---' }}</li>
+                  <li>شغل: {{ profile.Job_title || '---' }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
 <script setup>
-import Header from './header.vue';
-import Footer from './footer.vue';
-import room from './rooms.vue';
-import { ref,watch } from 'vue';
+import { computed, onMounted, ref } from 'vue'
+import Header from './header.vue'
+import { fetchUserProfile, updateUserProfile } from '@/services/api'
 
-const more=ref(false)
-const moreFunc =()=>{ 
-    more.value=true
+const isHost = computed(() => (typeof window !== 'undefined' ? localStorage.getItem('user_role') : 'guest') === 'host')
+const message = ref('')
+const error = ref('')
+const profile = ref({
+  username: '',
+  slug: '',
+  email: '',
+  phone: '',
+  NationalCode: '',
+  Job_title: '',
+})
+
+async function loadProfile() {
+  message.value = ''
+  error.value = ''
+
+  if (!localStorage.getItem('access_token')) {
+    error.value = 'برای دسترسی به پروفایل ابتدا وارد شوید.'
+    return
+  }
+
+  try {
+    const data = await fetchUserProfile()
+    profile.value = {
+      username: localStorage.getItem('user_name') || '',
+      slug: data.slug || '',
+      email: data.email || '',
+      phone: data.phone || '',
+      NationalCode: data.NationalCode || '',
+      Job_title: data.Job_title || '',
+    }
+  } catch (err) {
+    error.value = err.message || 'بارگذاری اطلاعات پروفایل با خطا مواجه شد.'
+  }
 }
+
+async function saveProfile() {
+  message.value = ''
+  error.value = ''
+  try {
+    const updateData = {
+      email: profile.value.email,
+      phone: profile.value.phone,
+      Job_title: profile.value.Job_title,
+    }
+    const result = await updateUserProfile(updateData)
+    profile.value = {
+      ...profile.value,
+      email: result.email || profile.value.email,
+      phone: result.phone || profile.value.phone,
+      Job_title: result.Job_title || profile.value.Job_title,
+    }
+    message.value = 'تغییرات با موفقیت ذخیره شد.'
+  } catch (err) {
+    error.value = err.message || 'ذخیره‌سازی با خطا مواجه شد.'
+  }
+}
+
+onMounted(loadProfile)
 </script>
-<style>
-@import url('../assets/header.css');
-@import url('../assets/room.css');
-@import url('../assets/profile.css');
 
-
+<style scoped>
+.card {
+  border-radius: 1rem;
+}
 </style>

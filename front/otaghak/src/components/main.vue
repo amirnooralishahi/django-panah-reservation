@@ -4,14 +4,14 @@
     <div
       class="search-contain w-100 gap-5 d-flex justify-content-center align-items-center"
     >
-      <div class="center d-flex flex-column align-items-center gap-3">
+      <div class="center d-flex flex-column align-items-center gap-3 ">
         <span class="vila text-white fw-bold rounded-3 p-2 text-center"
           >اجاره ویلا و سوئیت در سراسر ایران
         </span>
 
         <div class="box d-flex rounded-4 px-2 gap-1">
           <div class="d-flex align-items-center">
-            <button class="box-search p-2 px-3 rounded-3">
+            <button @click="handleSearch" class="box-search p-2 px-3 rounded-3">
               <i class="bi bi-search text-white"></i>
             </button>
           </div>
@@ -20,8 +20,10 @@
             class="text d-flex w-100 justify-content-center align-items-center"
           >
             <input
+              v-model="searchQuery"
+              @keydown.enter="handleSearch"
               type="text"
-              placeholder=" جستجوی شهر و استان"
+              placeholder="جستجوی شهر و استان"
               class="city h-75"
             />
           </div>
@@ -31,6 +33,21 @@
   </div>
   <Destination />
   <Speed />
+
+  <div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="fw-bold text-end">اقامتگاه‌های پیشنهادی</h3>
+      <router-link to="/room" class="text-success fw-bold">مشاهده همه</router-link>
+    </div>
+
+    <div v-if="loadingRooms" class="text-center py-4">در حال بارگذاری اقامتگاه‌ها…</div>
+    <div v-else-if="roomsError" class="alert alert-danger">{{ roomsError }}</div>
+    <div v-else class="row g-4">
+      <div v-for="(room, index) in rooms.slice(0, 6)" :key="room.id ?? room.Dormitory ?? index" class="col-12 col-md-6 col-lg-4">
+        <item-room :room="room" :image="previewImages[index % previewImages.length]" />
+      </div>
+    </div>
+  </div>
 
   <div class="mizban w-100 mt-4 d-flex justify-content-center">
     <div class="mizban-container">
@@ -262,17 +279,67 @@ import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import itemRoom from "./itemRoom.vue";
-import { ref } from "vue";
-import Room from "./rooms.vue";
+import { ref, onMounted, watch } from "vue";
+import { useRoute, useRouter } from 'vue-router'
 import Destination from "./destination.vue";
 import Speed from "./speed.vue";
 import Header from "./header.vue";
 import Footer from "./footer.vue";
+import { fetchRooms } from "@/services/api";
+import roomImage1 from "../../New_folder/a.webp";
+import roomImage2 from "../../New_folder/b.webp";
+import roomImage3 from "../../New_folder/c.webp";
+import roomImage4 from "../../New_folder/d.webp";
+import roomImage5 from "../../New_folder/e.webp";
+import roomImage6 from "../../New_folder/f.webp";
+
 const activeIndex = ref(0);
 let click = ref(false);
+const rooms = ref([]);
+const loadingRooms = ref(true);
+const roomsError = ref("");
+const searchQuery = ref("");
+const route = useRoute()
+const router = useRouter()
+const previewImages = [roomImage1, roomImage2, roomImage3, roomImage4, roomImage5, roomImage6];
+
 function retuer() {
   click.value = !click.value;
 }
+
+async function loadRooms(search = "") {
+  loadingRooms.value = true;
+  roomsError.value = "";
+  try {
+    const data = await fetchRooms(search);
+    rooms.value = Array.isArray(data) ? data : data?.results || [];
+  } catch (error) {
+    roomsError.value = error.message || "بارگذاری اقامتگاه‌ها با خطا مواجه شد.";
+    rooms.value = [];
+  } finally {
+    loadingRooms.value = false;
+  }
+}
+
+async function handleSearch() {
+  // navigate to results page with query so the rooms view shows filtered results
+  const q = searchQuery.value.trim()
+  await router.push({ path: '/room', query: q ? { search: q } : {} })
+}
+
+// load based on route query
+watch(() => route.query.search, (s) => {
+  const q = s || ''
+  searchQuery.value = q
+  loadRooms(q)
+}, { immediate: true })
+
+onMounted(async () => {
+  const q = route.query.search || ''
+  searchQuery.value = q
+  await loadRooms(q)
+});
+
 const onSwiperInit = (swiper) => {
   activeIndex.value = swiper.realIndex;
 };

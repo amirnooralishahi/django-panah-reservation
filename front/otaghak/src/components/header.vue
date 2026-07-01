@@ -5,9 +5,21 @@
         <div class="header-contain d-flex">
           <div class="right w-50 d-flex align-items-center jgap-3">
             <div class="p-2 header-action header-login">
-              <router-link to="/login" class="d-flex align-items-center gap-1 header-link">
-                <span class="text">ورود/ثبت نام</span>
-                <svg
+              <template v-if="isLoggedIn">
+                <div class="d-flex align-items-center gap-2">
+                  <router-link to="/profile" class="btn btn-sm btn-outline-primary rounded-pill">
+                    پروفایل
+                  </router-link>
+                  <button type="button" class="btn btn-sm btn-outline-danger rounded-pill" @click="logout">
+                    خروج
+                  </button>
+                  <span class="fw-bold text-success">سلام، {{ displayName }}</span>
+                </div>
+              </template>
+              <template v-else>
+                <router-link to="/login" class="d-flex align-items-center gap-1 header-link">
+                  <span class="text">ورود/ثبت نام</span>
+                  <svg
                   width="24"
                   height="24"
                   fill="none"
@@ -30,6 +42,7 @@
                 />
               </svg>
               </router-link>
+              </template>
             </div>
             <div class="p-2 header-action header-support">
               <router-link to="/support" class="d-flex align-items-center gap-1 header-link">
@@ -55,7 +68,7 @@
             </div>
 
             <div class="p-2 header-action header-host">
-              <router-link to="/login?role=host" class="d-flex align-items-center gap-1 header-link">
+              <router-link to="/host" class="d-flex align-items-center gap-1 header-link">
                 <span class="text">میزبان شوید</span>
                 <i class="bi bi-house-add-fill"></i>
               </router-link>
@@ -71,7 +84,38 @@
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const isLoggedIn = ref(false)
+const displayName = ref('')
+
+function syncAuthState() {
+  const token = localStorage.getItem('access_token')
+  const storedName = localStorage.getItem('user_name')
+  isLoggedIn.value = Boolean(token)
+  displayName.value = storedName || 'کاربر'
+}
+
+function logout() {
+  localStorage.removeItem('access_token')
+  localStorage.removeItem('profile_slug')
+  localStorage.removeItem('user_name')
+  syncAuthState()
+  router.push('/')
+}
+
+onMounted(() => {
+  syncAuthState()
+  window.addEventListener('auth:changed', syncAuthState)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('auth:changed', syncAuthState)
+})
+</script>
 
 <style>
 @import "../assets/header.css";

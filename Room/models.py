@@ -1,6 +1,6 @@
 from django.db import models
 from Passenger.models import User_war_struck,User_home_owner
-from slugify import slugify
+from django.utils.text import slugify
  
 from uuid import uuid4
 
@@ -33,8 +33,15 @@ class reservation(models.Model):
       return f'{self.passenger.user}-{self.room.location[:20]}'
     def save(self, *args, **kwargs):
       if not self.slug and self.room and self.room.Dormitory:
-        dorm_name = str(self.room.Dormitory).strip()
-        self.slug = dorm_name.replace(" ", "-")  # نگهداری زبان فارسی ولی تبدیل فاصله‌ها
+        base_slug = slugify(str(self.room.Dormitory).strip()) or f"room-{self.room_id}"
+        candidate = base_slug
+        suffix = 1
+        while reservation.objects.filter(slug=candidate).exclude(pk=self.pk).exists():
+          candidate = f"{base_slug}-{suffix}"
+          suffix += 1
+        self.slug = candidate
+      elif not self.slug:
+        self.slug = f"reservation-{uuid4().hex[:8]}"
       super().save(*args, **kwargs)
 
 class RoomImage( models.Model): 

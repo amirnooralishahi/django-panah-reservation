@@ -45,8 +45,15 @@
           ورود به عنوان {{ selectedRole === 'guest' ? 'متقاضی' : 'میزبان' }}
         </button>
 
+        <div v-if="successMessage" class="alert alert-success mt-3">
+          {{ successMessage }}
+        </div>
+        <div v-if="errorMessage" class="alert alert-danger mt-3">
+          {{ errorMessage }}
+        </div>
+
         <div class="register-note text-center text-muted">
-          هنوز حساب کاربری ندارید؟ <a href="#">ثبت نام کنید</a> و به جمع همراهان پناه بپیوندید.
+          هنوز حساب کاربری ندارید؟ <router-link to="/register">ثبت نام کنید</router-link> و به جمع همراهان پناه بپیوندید.
         </div>
       </div>
     </div>
@@ -54,19 +61,46 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { login } from '@/services/api'
 
+const router = useRouter()
+const route = useRoute()
 const selectedRole = ref('guest')
 const username = ref('')
 const password = ref('')
+const errorMessage = ref('')
+const successMessage = ref('')
+
+onMounted(() => {
+  if (route.query.role === 'host') {
+    selectedRole.value = 'host'
+  }
+})
 
 const selectRole = (role) => {
   selectedRole.value = role
 }
 
-const submitLogin = () => {
-  // اینجا میتوانید فرم را به سرور ارسال کنید.
-  alert(`درخواست ورود برای نقش ${selectedRole.value === 'guest' ? 'متقاضی' : 'میزبان'} ثبت شد.`)
+const submitLogin = async () => {
+  errorMessage.value = ''
+  successMessage.value = ''
+
+  if (!username.value || !password.value) {
+    errorMessage.value = 'لطفاً نام کاربری و رمز عبور را وارد کنید.'
+    return
+  }
+
+  try {
+    await login(username.value, password.value)
+    localStorage.setItem('user_role', selectedRole.value === 'host' ? 'host' : 'guest')
+    window.dispatchEvent(new Event('auth:changed'))
+    successMessage.value = 'ورود با موفقیت انجام شد. اکنون می‌توانید به بخش‌های دیگر بروید.'
+    router.push(selectedRole.value === 'host' ? '/host' : '/')
+  } catch (error) {
+    errorMessage.value = error.message || 'خطا در ورود. مجدداً تلاش کنید.'
+  }
 }
 </script>
 

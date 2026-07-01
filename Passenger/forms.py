@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from .models import User_passenger
+from .models import User_war_struck
 
 def password_len_validator(text) : 
   if len(text)<8: 
@@ -17,5 +17,5 @@ class UserCreationform(forms.Form):
  
 class UserProfileCreationForm(forms.ModelForm): 
   class Meta:
-    model=User_passenger
-    fields='__all__'
+    model = User_war_struck
+    fields = '__all__'

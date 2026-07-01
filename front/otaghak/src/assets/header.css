@@ -19,49 +19,8 @@ body {
 .down .header-contain .right .text:hover {
   cursor: pointer;
 }
-.down .header-contain .right .header-action {
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(72, 72, 78, 0.14);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-.down .header-contain .right .header-action:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-}
-.down .header-contain .right .header-action .header-link {
-  color: #2f343d;
-  text-decoration: none;
-  font-weight: 600;
-}
-.down .header-contain .right .header-action.header-login {
-  background: rgba(58, 138, 84, 0.1);
-  border-color: rgba(58, 138, 84, 0.22);
-}
-.down .header-contain .right .header-action.header-support {
-  background: rgba(0, 122, 255, 0.1);
-  border-color: rgba(0, 122, 255, 0.24);
-}
-.down .header-contain .right .header-action.header-support .text {
-  color: #0c53b0;
-}
-.down .header-contain .right .header-action.header-host {
-  background: rgba(168, 43, 62, 0.1);
-  border-color: rgba(168, 43, 62, 0.24);
-}
-.down .header-contain .right .header-action.header-host .text {
-  color: #a82b3e;
-}
-.down .header-contain .right .header-action .header-link svg,
-.down .header-contain .right .header-action .header-link i {
-  width: 20px;
-  height: 20px;
-}
-.down .header-contain .right .header-action .header-link i {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
+.down .header-contain .right .house {
+  color: green;
 }
 .down .header-contain .left .logo {
   width: 75px;
@@ -69,7 +28,7 @@ body {
 }
 
 .search {
-  background: url(./../../New_folder/search.jpeg) no-repeat center/cover;
+  background: url(./../../New_folder/background.jpg) no-repeat center/cover;
 }
 .search-contain {
   height: 600px;

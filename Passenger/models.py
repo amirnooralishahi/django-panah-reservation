@@ -26,9 +26,18 @@ class User_war_struck(models.Model):
                                default='default.png')
     def __str__(self):
         return f' {self.user}'
-    def save(self,*args, **kwargs): 
-        self.slug = str(slugify(self.user)) + str(slugify(self.NationalCode))
+
+    def save(self,*args, **kwargs):
+        username = self.user.username if self.user_id else 'user'
+        national_code = self.NationalCode or 'profile'
+        self.slug = f"{slugify(username)}-{slugify(national_code)}"
+
+        update_fields = kwargs.get('update_fields')
+        if update_fields is not None:
+            kwargs['update_fields'] = set(update_fields) | {'slug'}
+
         super().save(*args,**kwargs)
+
     class Meta:
         pass
     
@@ -46,9 +55,18 @@ class User_home_owner(models.Model):
                                 default='default.png')
     def __str__(self):
         return f' {self.user}'
-    def save(self,*args, **kwargs): 
-        self.slug = str(slugify(self.user)) + str(slugify(self.NationalCode))
+
+    def save(self,*args, **kwargs):
+        username = self.user.username if self.user_id else 'user'
+        national_code = self.NationalCode or 'profile'
+        self.slug = f"{slugify(username)}-{slugify(national_code)}"
+
+        update_fields = kwargs.get('update_fields')
+        if update_fields is not None:
+            kwargs['update_fields'] = set(update_fields) | {'slug'}
+
         super().save(*args,**kwargs)
+
     class Meta:
         pass
     

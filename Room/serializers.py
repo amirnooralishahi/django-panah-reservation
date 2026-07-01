@@ -1,19 +1,14 @@
 from rest_framework import serializers
 from .models import Rooms,reservation,RoomImage
+from Passenger.models import User_home_owner
 
 
 
 
 class ReserveSer(serializers.ModelSerializer):
   class Meta:
-      model= reservation
-      fields='__all__'
-        
-  def get_fields(self):
-        fields= super().get_fields()
-        for field in fields.values() : 
-            field.read_only = True
-        return fields
+      model = reservation
+      fields = '__all__'
     
       
 class RoomImageSer(serializers.ModelSerializer): 
@@ -25,11 +20,12 @@ class RoomSer(serializers.ModelSerializer) :
   images = RoomImageSer(many=True, read_only=True)
   class Meta:
       model=Rooms
-      exclude=['id']
+      fields='__all__'
 
 
 
 class RoomCreateWithImagesSerializer(serializers.ModelSerializer):
+    owner = serializers.PrimaryKeyRelatedField(queryset=User_home_owner.objects.all())
     images = serializers.ListField(
         child=serializers.ImageField(),
         write_only=True,
@@ -38,7 +34,23 @@ class RoomCreateWithImagesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rooms
-        fields = ['id', 'name', 'images']
+        fields = [
+            'id',
+            'owner',
+            'location',
+            'city',
+            'Dormitory',
+            'building_Information',
+            'Bed_Service',
+            'Toilet_Bathroom',
+            'Accommodation_cap',
+            'Perspective',
+            'Internal_Faclities',
+            'Additional_details',
+            'time_reserve',
+            'price',
+            'images',
+        ]
 
     def validate_images(self, value):
         if not value or len(value) == 0:
