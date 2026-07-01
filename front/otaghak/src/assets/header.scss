@@ -1,0 +1,436 @@
+@font-face {
+    font-family:iransans;
+    src: url('./../../font/IRYekan.ttf');
+}
+body{
+font-family:iransans ;
+overflow-x: hidden;
+color:  #48484e !important;
+position: relative !important;
+}
+
+.down{
+    
+    .header{
+        &-contain{
+            width: 1400px;
+            .right{ 
+                height: 50px;
+                .text{ 
+                    
+                    &:hover{ 
+                        cursor: pointer;
+                    }
+                }
+                .house{
+                    color: green;
+                }
+            }
+            .left{
+                .logo{ 
+                    width: 75px;
+                    height: 50px;
+                }
+            }
+        }
+    }
+}
+.search{
+    background: url(./../../New_folder/search.jpeg)no-repeat center / cover ;
+    
+    &-contain{
+        height: 600px;
+        .center{
+            
+            margin-top: 350px;
+            .vila { 
+                font-size: 18px;
+                background-color: rgba($color: #000000, $alpha: 0.4);
+            }
+            .box{ 
+                height: 60px;
+                width: 460px;
+                .text{ 
+                    .city{ 
+                        
+                    
+                     border: 1px solid rgba(100, 100, 110, 0.3);
+                        border-radius: 10px;
+                        padding: 0 14px;
+                        width: 100%;
+                        height: 100%;
+                        text-align: right;
+                        background-color: transparent;
+                        outline: none;
+                        font-size: 0.95rem;
+                    
+                        &::placeholder {
+                            color: rgba(72, 72, 78, 0.7);
+                            text-align: right;
+                        }
+
+                    
+                    }
+                }
+                .box-search{
+                    background-color: rgb(70, 153, 57) !important;
+                    border:none
+                }
+                background-color: white;
+                
+                
+            }
+            .category{
+                margin-top: 120px;
+                &-contain{
+                    height: 120px;
+                    width: 780px;
+                    .contain{
+                         border: 1px solid rgba(100, 100, 110,0.2);
+                        width: 70px;
+                        height:100px;
+                        &:hover{ 
+                            cursor: pointer;
+                        }
+                        .img{
+                            width: 50px;
+                            height: 50px;
+                        }
+                    }
+                }
+            }
+        } 
+        
+    }
+}
+.destination{ 
+        margin-top:100px;
+
+    &-container{ 
+        width: 1300px;
+        .swiper-container{
+
+        margin: auto;
+    }
+    .custom-swiper{
+        height: 280px;
+        width: 1300px !important;
+        gap: 0;
+
+        .img{
+            &:hover{ 
+                cursor: pointer;
+            }
+            width: 140px;
+            height: 150px;
+        }
+        .op{
+            
+            color: red;
+        }
+    }
+    }
+    .custom-prev,.custom-next{
+        background: white;
+        color: black;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        z-index: 10;
+    }
+    .custom-prev { border: 1px solid #8d8d96;width: 30px;height: 30px; } /* دکمه چپ */
+    .custom-next {  border: 1px solid #8d8d96;width: 30px;height: 30px;}
+}
+
+.speed{ 
+    background:linear-gradient(#289b0bbd, transparent),;
+    
+    &-container{
+        width: 1300px;
+        
+   
+    .swiper-container{
+        .up{ 
+            .button{ 
+                .lower-swiper-wrapper{
+                    .custom-prevy { left: 10px;border: 1px solid #8d8d96;} /* دکمه چپ */
+                    .custom-nexty { left: 50px; border: 1px solid #8d8d96;}
+                }
+            }
+        }
+        .down{
+            width: 1300px;
+            .img{ 
+                background-color: white;
+                &:hover{ 
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    }
+}
+
+.room{
+    &-contain{ 
+        width: 1300px !important;
+      
+        .down{
+           
+         .head { 
+            color: #000000;
+            font-size: 14px;
+            font-weight: 500;
+         }   
+         .detail{ 
+            .comment{ 
+    color:                 rgb(100, 100, 110) !important;
+
+                font-size: 13px;
+            }
+            .city{ 
+                font-size: 14px;
+    color:                 rgb(100, 100, 110) !important;
+            }
+            
+         }
+        }
+        .router{
+            text-decoration: none;
+            .price{ 
+                color:                 rgb(100, 100, 110) !important;
+            }
+        }
+        .my-swiper-container {
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+
+          }
+          
+          .my-custom-swiper {
+            padding: 20px;
+            width: 1300px;
+            .slid{
+                 
+                &:hover{ 
+                    cursor: pointer;
+                }
+            }
+        }
+          
+          .swiper-prev-custom,
+          .swiper-next-custom {
+    
+            
+            
+            background: white;
+            color: black;
+            border: 1px solid rgba(100, 100, 110,0.2);;
+            padding: 5px;
+
+            cursor: pointer;
+            z-index: 10;
+          }
+          
+          .swiper-prev-custom {
+            left: 10px;
+          }
+          
+          .swiper-next-custom {
+            left: 60px;
+          }
+          
+          .swiper-slide img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+          }
+    }
+}
+.world{ 
+    &-container{
+
+        background:linear-gradient(#c61731, transparent), url('./../../New_folder/Untitled.png')  center ;
+        background-color: #c61731;
+    .swiper-container{
+        .up{ 
+            .button{ 
+                .lower-swiper-wrapper{
+                    .custom-prevy { left: 10px;border: 1px solid #8d8d96;} /* دکمه چپ */
+                    .custom-nexty { left: 50px; border: 1px solid #8d8d96;}
+                }
+            }
+        }
+        .down{
+            width: 1300px;
+            .img{ 
+                background-color: white;
+                &:hover{ 
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    }
+}
+.Advertising{
+    &-container{ 
+     
+        .contain{ 
+            width: 1300px;
+            .icon{
+                .img{ 
+                    width: 70px;
+                    height: 70px;
+                }
+            }
+        }
+    }
+}
+.mizban{ 
+    &-container{ 
+        // background: url('./../../New_folder/mizban.webp') no-repeat center / cover;
+        
+        .image {
+            width: 1300px;
+            &:hover{ 
+                cursor: pointer;
+            }
+            .img{ 
+                height: 300px;
+            }
+        }
+    }
+}
+.comment{ 
+    &-container{ 
+
+        .swiper-container{ 
+            width: 1300px;
+            .custom-swiper{
+                .swiper-slide {
+                    transition: transform 0.5s ease, opacity 0.5s ease;
+                    opacity: 0.5;
+                    filter: blur(2px);
+                    transform: scale(0.9);
+                  }
+                  .swiper-slide-active {
+                    opacity: 1;
+                    filter: blur(0);
+                    transform: scale(1.1);
+                  }
+                .com{ 
+                    &:hover{ 
+                        cursor: pointer;
+                    }
+                    border: 1px solid rgb(100, 100, 110);
+                    border-radius: 5px;
+                    width: 400px !important;
+                }
+                .button{ 
+                    padding: 2px;
+              
+                    .active-btn {
+                        width: 30px !important;
+                        height: 10px !important;
+                        // border-radius: 3px;
+                        background-color: blue;
+                      }
+                    .custom-prevv{ 
+                        width: 10px ;
+                        height: 10px ;
+                        padding: 0;
+                        background-color: black;
+                        border-radius: 10px;
+                
+                    }
+                    
+                }
+            }
+        }
+   
+    }
+}
+
+.travel {
+    &-container{
+        .mat{ 
+            line-height: 30px;
+        }
+        .matn { 
+            line-height: 30px;
+            color: rgb(100, 100, 110);
+        }
+        .text { 
+            width: 1300px;
+        } 
+        .more{ 
+            &:hover{ 
+                cursor: pointer;
+            }
+        }
+    }
+}
+.tag {
+    &-container{ 
+        color: #48484e;
+        .row { 
+
+        width: 1300px ;
+        font-size: 14px;
+            padding: 0;
+            .col-auto{ 
+                padding: 10px;
+                
+            }
+    }
+    }
+}
+.footer{
+    &-container{ 
+        background-color: rgb(244 244 248 );
+        .contain{ 
+            width: 1300px;
+            .left{  
+                .icon{
+                &:hover{ 
+                    cursor: pointer;
+                }
+                    }
+                    .community { 
+                        background-color: rgb(40, 202, 80);
+                        
+                    }
+                    .Validity {
+                        .img{ 
+                            width: 80px !important;
+                            height: 80px !important;
+                        }
+                    }  
+                }
+            .right{ 
+                .header{ 
+                    .logo{
+                            width: 75px;
+                            height: 75px;
+                        }
+                    width: 200px;
+                }
+                .link{
+                     .links{
+                         .right,.left{ 
+                            color: #48484e;
+                            .detail{ 
+                                    text-decoration: none;
+                                    color: #48484e;
+                                }
+                    }
+                }
+                    
+                }
+            }
+        }
+    }
+}

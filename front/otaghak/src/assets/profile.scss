@@ -1,0 +1,128 @@
+.body {
+    direction: rtl;
+    .prof{ 
+        &-container{ 
+    width: 1300px;
+        
+            .about{ 
+                .text{ 
+                    font-size: 12px ;
+
+                }
+            }
+            .text { 
+                font-size: 14px ;
+                color: #8b8b8e;
+            }
+            .name{ 
+                .image{ 
+                    border-radius: 50%;
+                }
+            
+                .first{ 
+                    font-size: 18px;
+                }
+            }
+            .did{ 
+                &:hover{ 
+                    cursor: pointer;
+                }
+            }
+            .link{ 
+                text-decoration: none;
+                color: #48484e !important;
+            }
+        }
+     }
+     .home{ 
+        &-container{
+            width: 1300px;
+            .text { 
+                color: #8b8b8e;
+            }
+        }
+        
+    }
+    .comment{ 
+        &-container{
+            width: 1300px ; 
+            .header{
+                border: 1px solid red ;
+                .text{ 
+
+                    color: #8b8b8e;
+
+    
+                }
+            }
+            
+            .contain{
+                .but{ 
+                    font-size: 14px;
+                }
+                .did {
+                    &:hover{ 
+                        cursor: pointer;
+                    }
+                } 
+                .box{ 
+                    .name{ 
+                        .person{ 
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 50%;
+          
+                            background-color: rgb(223, 223, 226);
+                        }
+                        .first{ 
+                            font-size: 14px;
+                        }
+                        .his{ 
+                            color: #8b8b8e;
+                            font-size: 13px;
+                        }
+                    }
+                    .nor{ 
+                        color: #8b8b8e;
+                        font-size: 14px;
+                    }
+                    .answerMiz{ 
+                     
+                        .text{ 
+                            color: rgb(100 100 110);
+                            font-size: 14px;
+                            line-height: 24px;
+                        }
+                    }
+                    .mizban{ 
+                        color: rgb(180 180 190);
+                    }
+                  
+                    
+                }
+                .allView{
+              
+                    .section{
+                        .line{ 
+                            height: 4px;
+                            border-radius: 10px;
+                            width: 250px;
+                            background-color: #666;
+                        }
+                    }
+                    .text{ 
+                        color: rgb(180 180 190);
+                    }
+                    .point{
+                        .header{ 
+                            .text{ 
+                                color: rgb(180 180 190);
+                            }
+                        }
+                    }
+                    
+                }
+             }
+        }
+    }
+}

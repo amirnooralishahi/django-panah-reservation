@@ -1,0 +1,84 @@
+.body {
+  direction: rtl;
+}
+.body .prof-container {
+  width: 1300px;
+}
+.body .prof-container .about .text {
+  font-size: 12px;
+}
+.body .prof-container .text {
+  font-size: 14px;
+  color: #8b8b8e;
+}
+.body .prof-container .name .image {
+  border-radius: 50%;
+}
+.body .prof-container .name .first {
+  font-size: 18px;
+}
+.body .prof-container .did:hover {
+  cursor: pointer;
+}
+.body .prof-container .link {
+  text-decoration: none;
+  color: #48484e !important;
+}
+.body .home-container {
+  width: 1300px;
+}
+.body .home-container .text {
+  color: #8b8b8e;
+}
+.body .comment-container {
+  width: 1300px;
+}
+.body .comment-container .header {
+  border: 1px solid red;
+}
+.body .comment-container .header .text {
+  color: #8b8b8e;
+}
+.body .comment-container .contain .but {
+  font-size: 14px;
+}
+.body .comment-container .contain .did:hover {
+  cursor: pointer;
+}
+.body .comment-container .contain .box .name .person {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgb(223, 223, 226);
+}
+.body .comment-container .contain .box .name .first {
+  font-size: 14px;
+}
+.body .comment-container .contain .box .name .his {
+  color: #8b8b8e;
+  font-size: 13px;
+}
+.body .comment-container .contain .box .nor {
+  color: #8b8b8e;
+  font-size: 14px;
+}
+.body .comment-container .contain .box .answerMiz .text {
+  color: rgb(100, 100, 110);
+  font-size: 14px;
+  line-height: 24px;
+}
+.body .comment-container .contain .box .mizban {
+  color: rgb(180, 180, 190);
+}
+.body .comment-container .contain .allView .section .line {
+  height: 4px;
+  border-radius: 10px;
+  width: 250px;
+  background-color: #666;
+}
+.body .comment-container .contain .allView .text {
+  color: rgb(180, 180, 190);
+}
+.body .comment-container .contain .allView .point .header .text {
+  color: rgb(180, 180, 190);
+}/*# sourceMappingURL=profile.css.map */

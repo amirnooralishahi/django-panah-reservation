@@ -1,0 +1,513 @@
+.header-container {
+  width: 1400px;
+}
+.header-container .right .text {
+  color: rgb(180, 180, 190);
+  transition: 0.3s;
+}
+.header-container .right .text:hover {
+  cursor: pointer;
+}
+.header-container .right .text.active {
+  color: #48484e !important;
+}
+.header-container .right .line {
+  width: 100%;
+  height: 3px;
+  background-color: #48484e !important;
+}
+
+.images-container {
+  justify-content: center;
+  align-items: center;
+  width: 1400px;
+  height: 600px;
+}
+.images-container .row {
+  padding: 0;
+  margin: 0;
+}
+.images-container .left .img2:hover {
+  cursor: pointer;
+}
+.images-container .left .img1 {
+  border-radius: 15px 0 0 0;
+}
+.images-container .left .image .img {
+  filter: brightness(50%);
+  border-radius: 0 0 0 15px;
+}
+.images-container .left .image .rel {
+  top: 43%;
+  left: 25% !important;
+}
+
+.body-container {
+  width: 1400px;
+}
+.body-container .left .price .under {
+  -webkit-text-decoration: red;
+          text-decoration: red;
+}
+.body-container .left .history .open, .body-container .left .history .close {
+  height: 100px;
+  color: rgb(180, 180, 190);
+}
+.body-container .left .history .open:hover, .body-container .left .history .close:hover {
+  cursor: pointer;
+}
+.body-container .left .history .history-calender {
+  width: 750px;
+  box-shadow: 0px 0px 1px 1px;
+}
+.body-container .left .history .history-calender .travel {
+  font-size: 13px;
+}
+.body-container .left .history .history-calender .clos, .body-container .left .history .history-calender .ope {
+  width: 370px !important;
+  color: rgb(180, 180, 190);
+}
+.body-container .left .history .history-calender .ordi .days {
+  font-size: 12px;
+  color: rgb(180, 180, 190);
+}
+.body-container .left .history .history-calender .ordi .day .items {
+  height: 400px;
+}
+.body-container .left .history .history-calender .ordi .day .items .item:hover {
+  cursor: pointer;
+}
+.body-container .left .history .history-calender .ordi .day .items .item {
+  width: 42px !important;
+  height: 50px !important;
+}
+.body-container .left .history .history-calender .ordi .day .items .item.am {
+  color: red;
+}
+.body-container .left .history .history-calender .ordi .day .items .item.ab {
+  color: rgb(180, 180, 190);
+}
+.body-container .left .history .history-calender .farvardin .days {
+  font-size: 12px;
+  color: rgb(180, 180, 190);
+}
+.body-container .left .history .history-calender .farvardin .day .items {
+  height: 400px;
+}
+.body-container .left .history .history-calender .farvardin .day .items .item:hover {
+  cursor: pointer;
+}
+.body-container .left .history .history-calender .farvardin .day .items .item {
+  width: 42px !important;
+  height: 50px !important;
+}
+.body-container .left .history .history-calender .farvardin .day .items .item.am {
+  color: red;
+}
+.body-container .left .history .history-calender .farvardin .day .items .item.ab {
+  color: rgb(180, 180, 190);
+}
+.body-container .left .history .history-calender .khordad .days {
+  font-size: 12px;
+  color: rgb(180, 180, 190);
+}
+.body-container .left .history .history-calender .khordad .day .items {
+  height: 400px;
+}
+.body-container .left .history .history-calender .khordad .day .items .item:hover {
+  cursor: pointer;
+}
+.body-container .left .history .history-calender .khordad .day .items .item {
+  width: 42px !important;
+  height: 50px !important;
+}
+.body-container .left .history .history-calender .khordad .day .items .item.am {
+  color: red;
+}
+.body-container .left .history .history-calender .khordad .day .items .item.ab {
+  color: rgb(180, 180, 190);
+}
+.body-container .left .history .history-calender .line {
+  height: 1px;
+  color: rgb(180, 180, 190);
+}
+.body-container .left .history .history-calender .accept-container .left .but {
+  width: 100px;
+  height: 50px;
+  background-color: rgb(72, 72, 78);
+  font-size: 14px;
+}
+.body-container .left .history .history-calender .accept-container .right .guid {
+  font-size: 14px;
+  color: rgb(72, 72, 78);
+}
+.body-container .left .history .history-calender .accept-container .right .guid:hover {
+  cursor: pointer;
+}
+.body-container .left .number-container {
+  color: rgb(180, 180, 190);
+}
+.body-container .left .number-container:hover {
+  cursor: pointer;
+}
+.body-container .left .text {
+  color: rgb(180, 180, 190);
+}
+.body-container .left .line {
+  height: 1px;
+  width: 100%;
+  background-color: rgb(180, 180, 190);
+}
+.body-container .left .check .checkBox:hover {
+  cursor: pointer;
+}
+.body-container .left .choice-container {
+  background-color: rgb(240, 62, 88);
+  transition: 0.2s;
+}
+.body-container .left .choice-container:hover {
+  cursor: pointer;
+  background-color: rgb(170, 22, 45);
+}
+.body-container .left .message {
+  color: rgb(180, 180, 190);
+}
+.body-container .left .message .message-text {
+  font-size: 14px !important;
+}
+.body-container .right .titleHome .detail .right .img {
+  width: 70px;
+  height: 70px;
+}
+.body-container .right .titleHome .detail .left .textDetail {
+  font-size: 12px;
+}
+.body-container .right .titleHome .point .star .gold {
+  color: gold !important;
+}
+.body-container .right .titleHome .point .star .text {
+  color: rgb(180, 180, 190);
+}
+.body-container .right .titleHome .point .text {
+  font-size: 12px;
+  color: rgb(180, 180, 190);
+}
+.body-container .right .titleHome .point .succes .circle {
+  color: green;
+}
+.body-container .right .titleHome .line {
+  height: 1px;
+  background-color: rgb(180, 180, 190);
+}
+.body-container .right .about-container .info {
+  font-size: 14px;
+  color: rgb(180, 180, 190);
+}
+.body-container .line {
+  height: 1px;
+  background-color: #b4b4be;
+}
+.body-container .pool-container .text {
+  font-size: 12px;
+}
+.body-container .pool-container .squar {
+  border: 1px solid #b4b4be;
+  color: #b4b4be;
+}
+.body-container .pool-container .squar .text-down {
+  font-size: 13px;
+}
+.body-container .sleep-container .pack .squar {
+  border: 1px solid #b4b4be;
+  color: #b4b4be;
+}
+.body-container .sleep-container .pack .squar .text-down {
+  font-size: 12px;
+}
+.body-container .sleep-container .pack .squar .sys {
+  font-size: 12px;
+}
+.body-container .sleep-container .pack .title {
+  font-size: 12px !important;
+}
+.body-container .Facilities-container .img {
+  width: 40px;
+}
+.body-container .Facilities-container .view .hover:hover {
+  cursor: pointer;
+}
+.body-container .allView {
+  overflow-y: auto;
+  z-index: 1050;
+  animation: slideUp 0.4s ease forwards;
+}
+.body-container .allView .allView .fixed-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.body-container .allView {
+  box-shadow: 0px 0px 5px 5px;
+  top: 0%;
+  right: 30%;
+}
+.body-container .allView .home .tras {
+  font-size: 12px;
+  color: #b4b4be;
+}
+.body-container .rent-container .text {
+  font-size: 14px;
+  color: rgb(100, 100, 110);
+  line-height: 28px;
+}
+.body-container .rent-container .hover:hover {
+  cursor: pointer;
+}
+.body-container .location-container .moj {
+  color: rgb(100, 100, 110);
+  font-size: 18px;
+  letter-spacing: -0.2px;
+  line-height: 28px;
+  font-weight: 400;
+  font-family: sans-serif;
+}
+.body-container .location-container .map-section {
+  padding: 1rem;
+}
+.body-container .location-container .map-section .note {
+  font-size: 0.9rem;
+  color: #555;
+}
+.body-container .location-container .map-section .map-container-wrapper {
+  margin-top: 1rem;
+}
+.body-container .location-container .map-section .section-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.body-container .location-container .map-section .map-description .caption {
+  font-size: 0.85rem;
+  color: #666;
+}
+.body-container .location-container .map-section .map-container {
+  width: 100%;
+  aspect-ratio: 1.33/1;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+.body-container .center-container .text {
+  font-size: 13px;
+}
+.body-container .taghvim-container .history-calender {
+  width: 100%;
+  box-shadow: 0px 0px 1px 1px;
+}
+.body-container .taghvim-container .history-calender .travel {
+  font-size: 13px;
+}
+.body-container .taghvim-container .history-calender .ordi .mark:hover, .body-container .taghvim-container .history-calender .khordad .mark:hover, .body-container .taghvim-container .history-calender .farvardin .mark:hover {
+  cursor: pointer;
+}
+.body-container .taghvim-container .history-calender .ordi .days, .body-container .taghvim-container .history-calender .khordad .days, .body-container .taghvim-container .history-calender .farvardin .days {
+  font-size: 12px;
+  color: rgb(180, 180, 190);
+}
+.body-container .taghvim-container .history-calender .ordi .day .items, .body-container .taghvim-container .history-calender .khordad .day .items, .body-container .taghvim-container .history-calender .farvardin .day .items {
+  height: 400px;
+}
+.body-container .taghvim-container .history-calender .ordi .day .items .item:hover, .body-container .taghvim-container .history-calender .khordad .day .items .item:hover, .body-container .taghvim-container .history-calender .farvardin .day .items .item:hover {
+  cursor: pointer;
+}
+.body-container .taghvim-container .history-calender .ordi .day .items .item, .body-container .taghvim-container .history-calender .khordad .day .items .item, .body-container .taghvim-container .history-calender .farvardin .day .items .item {
+  width: 52px !important;
+  height: 50px !important;
+}
+.body-container .taghvim-container .history-calender .ordi .day .items .item.am, .body-container .taghvim-container .history-calender .khordad .day .items .item.am, .body-container .taghvim-container .history-calender .farvardin .day .items .item.am {
+  color: red;
+}
+.body-container .taghvim-container .history-calender .ordi .day .items .item.ab, .body-container .taghvim-container .history-calender .khordad .day .items .item.ab, .body-container .taghvim-container .history-calender .farvardin .day .items .item.ab {
+  color: rgb(180, 180, 190);
+}
+.body-container .taghvim-container .history-calender .line {
+  height: 1px;
+  color: rgb(180, 180, 190);
+}
+.body-container .taghvim-container .reserve .text {
+  font-size: 13px;
+  color: rgb(180, 180, 190);
+}
+.body-container .taghvim-container .accept-container .left .but {
+  border: none;
+  box-shadow: none;
+  width: 150px;
+  height: 50px;
+  background-color: rgb(206, 203, 206);
+  font-size: 14px;
+}
+.body-container .taghvim-container .accept-container .right .guid {
+  font-size: 14px;
+  color: rgb(72, 72, 78);
+}
+.body-container .taghvim-container .accept-container .right .guid:hover {
+  cursor: pointer;
+}
+.body-container .time-container .sys {
+  font-size: 14px;
+  color: #b4b4be;
+}
+.body-container .time-container .squar {
+  border: 1px solid #b4b4be;
+  color: #b4b4be;
+}
+.body-container .time-container .squar .close {
+  width: 150px;
+}
+.body-container .time-container .squar .text-down {
+  font-size: 13px;
+}
+.body-container .time-container .fix .text {
+  color: #8b8b8e;
+  font-size: 13px;
+}
+.body-container .time-container .miz .text {
+  font-size: 13px;
+  color: #8b8b8e;
+}
+.body-container .time-container .cansel .dash {
+  color: #aeaeb1;
+  height: 3px;
+}
+.body-container .time-container .cansel .green .text {
+  color: green;
+}
+.body-container .time-container .cansel .green .price {
+  color: #8b8b8e;
+  font-size: 13px;
+}
+.body-container .time-container .cansel .yellow {
+  color: rgb(251, 177, 24);
+}
+.body-container .time-container .cansel .yellow .price {
+  color: #8b8b8e;
+  font-size: 13px;
+}
+.body-container .time-container .cansel .red {
+  color: rgb(240, 62, 88);
+}
+.body-container .time-container .cansel .red .price {
+  color: #8b8b8e;
+  font-size: 13px;
+}
+.body-container .bail .text {
+  color: #8b8b8e;
+  font-size: 13px;
+}
+.body-container .bail .did:hover {
+  cursor: pointer;
+}
+.body-container .bail .allView {
+  height: 700px !important;
+  width: 680px !important;
+  background-color: transparent !important;
+  overflow-y: auto;
+  z-index: 1050;
+  animation: slideUp 0.4s ease forwards;
+}
+.body-container .bail .allView .allView .fixed-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.body-container .bail .allView {
+  box-shadow: 0px 0px 5px 5px;
+  top: 0%;
+  right: 28%;
+}
+.body-container .bail .allView .moj {
+  font-size: 13px;
+  color: #8b8b8e;
+  line-height: 25px;
+}
+.body-container .bail .allView .home .tras {
+  font-size: 12px;
+  color: #b4b4be;
+}
+.body-container .comment-container .point .header .star {
+  color: gold;
+}
+.body-container .comment-container .contain .did:hover {
+  cursor: pointer;
+}
+.body-container .comment-container .contain .box .name .person {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgb(223, 223, 226);
+}
+.body-container .comment-container .contain .box .name .first {
+  font-size: 14px;
+}
+.body-container .comment-container .contain .box .name .his {
+  color: #8b8b8e;
+  font-size: 13px;
+}
+.body-container .comment-container .contain .box .nor {
+  color: #8b8b8e;
+  font-size: 14px;
+}
+.body-container .comment-container .contain .box .answerMiz .text {
+  color: rgb(100, 100, 110);
+  font-size: 14px;
+  line-height: 24px;
+}
+.body-container .comment-container .contain .box .mizban {
+  color: rgb(180, 180, 190);
+}
+.body-container .comment-container .contain .allView .section .line {
+  height: 4px;
+  border-radius: 10px;
+  width: 250px;
+  background-color: #666;
+}
+.body-container .comment-container .contain .allView .text {
+  color: rgb(180, 180, 190);
+}
+.body-container .comment-container .contain .allView .point .header .text {
+  color: rgb(180, 180, 190);
+}
+.body-container .prof-container .text {
+  font-size: 14px;
+  color: #8b8b8e;
+}
+.body-container .prof-container .name .image {
+  border-radius: 50%;
+}
+.body-container .prof-container .name .first {
+  font-size: 18px;
+}
+.body-container .prof-container .did:hover {
+  cursor: pointer;
+}
+.body-container .prof-container .link {
+  text-decoration: none;
+  color: #48484e !important;
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}/*# sourceMappingURL=room.css.map */

@@ -1,0 +1,163 @@
+from rest_framework import status
+from rest_framework.parsers import MultiPartParser,FormParser
+from rest_framework.decorators import APIView
+from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
+from rest_framework.permissions import IsAuthenticated,AllowAny
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.contrib import messages
+from rest_framework import status
+from django.shortcuts import get_object_or_404 
+from .models import Rooms,reservation,RoomImage
+from .serializers import RoomSer,RoomCreateWithImagesSerializer,ReserveSer,RoomImageSer
+from .permission import IsInspectorMember
+ # Create your views here.
+
+#for this class url pattern is created
+
+class RoomCreateWithImagesView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    renderer_classes = [JSONRenderer]
+    authentication_classes=[JWTAuthentication]
+    def get_permissions(self): 
+       if self.request.method  == 'GET' : 
+         return [ IsInspectorMember()]
+       if self.request.method == 'POST':  
+         return [ IsAuthenticated()]
+       return [ AllowAny()]
+    def get(self, request):
+        instance= Rooms.objects.all()
+        ser = RoomSer(instance=instance,many=True)
+        return Response( ser.data)
+    def post(self, request):
+        serializer = RoomCreateWithImagesSerializer(data=request.data)
+        if serializer.is_valid():
+            room = serializer.save()
+            return Response(RoomSer(room).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#for this class url pattern is created
+class RoomDetail(APIView): 
+  renderer_classes = [JSONRenderer]
+  authentication_classes=[JWTAuthentication]
+  def get_permissions(self):
+     if self.request.method in ['PUT','DELETE','GET']: 
+       return [IsAuthenticated]
+     return [AllowAny()]
+  def get(self,request,pk): 
+    instance =Rooms.objects.get(id=pk)
+    ser =RoomSer(instance=instance)
+    if ser.is_valid(): 
+      return Response(ser.data,status=status.HTTP_202_ACCEPTED)
+    return Response({'message':'this room is not available'}, status=status.HTTP_404_NOT_FOUND)
+  
+  def put(self,request, pk ) :
+    instance=Rooms.objects.get(id= pk)
+    ser= RoomSer(instance,data=request.data,partial=True)
+    if ser.is_valid( ):
+      ser.save( )
+      return Response(ser.data,status=status.HTTP_201_CREATED)
+    return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
+  def delete(self,request, pk ): 
+    instance = Rooms.objects.get(id = pk )
+    if instance.DoesNotExist(): 
+      Response({'message': 'instance not found'}, status=status.HTTP_401_UNAUTHORIZED)
+    instance.delete()
+    
+#for this class url pattern is created
+    
+class reserveRoom(APIView):
+  renderer_classes = [JSONRenderer]
+  authentication_classes=[JWTAuthentication]
+  def get_permissions(self):
+     if self.request.method == 'GET': 
+        return [IsInspectorMember()] 
+     return [AllowAny()]
+  def get(self,request): 
+    instance = reservation.objects.all()
+    ser = ReserveSer(instance=instance,many=True)
+    return Response(messages.SUCCESS , status=status.HTTP_200_OK)
+  def post ( self, request) : 
+    ser = ReserveSer(data=request.data )
+    if ser.is_valid(): 
+      ser.save()
+      return Response({'message':'with successfully saved '},status=status.HTTP_201_CREATED)
+    return Response({'message':'error'} , status=status.HTTP_400_BAD_REQUEST)
+  
+  
+#for this class url pattern is created
+
+class detailReserveRoom(APIView): 
+    renderer_classes = [JSONRenderer]
+    authentication_classes=[JWTAuthentication]
+    
+    def get_permissions(self):
+       if self.request.method in ['PUT','GET','DELETE']: 
+         return [IsAuthenticated()]
+       return [AllowAny()]
+    def get(self,request,pk): 
+      instance = reservation.objects.get(id= pk )
+      ser = ReserveSer(instance=instance)
+      if ser.is_valid(): 
+        return Response(messages.SUCCESS ,ser.data,status.HTTP_202_ACCEPTED)
+      return Response(messages.ERROR, status= status.HTTP_401_UNAUTHORIZED)
+    
+    def put(self,request,pk): 
+      instance=reservation.objects.get(id= pk)
+      ser= ReserveSer(instance=instance,partial=True,data=request.data,passenger=request.user.user_passenger)
+      if ser.is_valid(): 
+        ser.save()
+        return Response({'message':'with successfully updated'},status=status.HTTP_202_ACCEPTED)
+      return Response({'message':'error'},status=status.HTTP_401_UNAUTHORIZED)
+    
+    def delete(self,request,pk ): 
+      instance = get_object_or_404(reservation,id=pk)
+      instance.delete()
+      return Response({'detail':'رزرو حذف شد'},status=status.HTTP_202_ACCEPTED)
+    
+
+#for this class url pattern is created
+    
+class uploadImage(APIView): 
+  renderer_classes = [JSONRenderer]
+  authentication_classes=[JWTAuthentication]
+  
+  def get_permissions(self):
+    if self.request.method == 'GET': 
+      return [ IsAuthenticated()]
+    return []
+  def get(self,request): 
+    instance =RoomImage.objects.all()
+    ser= RoomImageSer(instance=instance,many=True)
+    return Response(ser.data,status=status.HTTP_200_OK)
+  
+  def post ( self,request): 
+    ser=RoomImageSer(data=request.data)
+    if ser.is_valid(): 
+      ser.save()
+      return Response(messages.SUCCESS,status=status.HTTP_201_CREATED)
+    return Response({'message':'invalid data'} , status=status.HTTP_400_BAD_REQUEST)
+  
+  class detailUploadImage(APIView): 
+    renderer_classes = [JSONRenderer]
+    authentication_classes=[JWTAuthentication]
+    
+    def get(self,request,pk): 
+      instance = RoomImage.objects.get(pk=id)
+      ser=RoomImageSer(instance=instance)
+      return ser.data
+    
+    def put(self,request,pk):   
+      instance = RoomImage.objects.get(id= pk) 
+      ser = RoomImageSer(instance=instance,data=request.data,partial=True)
+      if ser.is_valid():
+         ser.save()
+         return Response(ser.data,status=status.HTTP_202_ACCEPTED)
+      return Response(status=status.HTTP_401_UNAUTHORIZED)  
+    def delete(self,request,pk): 
+      instance = RoomImage.objects.get(id=pk)
+      if instance.DoesNotExist: 
+        return Response({'message':'this image is not available'},status=status.HTTP_404_NOT_FOUND)
+      instance.delete()
+      return Response({'message':'with successfully deleted'})
+    
+    
