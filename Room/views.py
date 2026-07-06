@@ -8,7 +8,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from .models import Rooms,reservation,RoomImage
-from .serializers import RoomSer,RoomCreateWithImagesSerializer,ReserveSer,RoomImageSer
+from .serializers import RoomSer,RoomCreateWithImagesSerializer,ReserveSer,RoomImageSer,ReservationDateSerializer
 from .permission import IsInspectorMember
  # Create your views here.
 
@@ -171,4 +171,19 @@ class uploadImage(APIView):
       instance.delete()
       return Response({'message':'with successfully deleted'})
     
-    
+
+
+class RoomReservationList(APIView):
+
+    permission_classes = [AllowAny]
+
+    def get(self, request, room_id):
+
+        reservations = reservation.objects.filter(room_id=room_id)
+
+        serializer = ReservationDateSerializer(
+            reservations,
+            many=True
+        )
+
+        return Response(serializer.data)

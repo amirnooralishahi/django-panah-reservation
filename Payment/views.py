@@ -1,5 +1,5 @@
 from decimal import Decimal
-from datetime import timedelta
+from datetime import timedelta,datetime
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.views import APIView
@@ -14,6 +14,7 @@ from .models import Payment,RecordReserve
 from .serializers import PaymentSer,RecordSer
 from Passenger.models import  User_war_struck
 from Room.models import reservation, Rooms
+
 # Create your views here.
 
 
@@ -50,9 +51,14 @@ class ListPayment ( APIView):
     else:
       return Response({'error': 'passenger information is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-    reservation_date = reserve_date or timezone.now()
-    delivery_datetime = delivery_date or timezone.now() + timedelta(days=1)
-
+    reservation_date =  datetime.strptime(
+    reserve_date,
+    "%Y-%m-%d"
+    )
+    delivery_datetime =  datetime.strptime(
+    delivery_date,
+    "%Y-%m-%d"
+)
     reservation_obj, _ = reservation.objects.get_or_create(
         passenger=passenger,
         room=room,
@@ -61,21 +67,48 @@ class ListPayment ( APIView):
             'ReservDate': reservation_date,
         },
     )
+    days = (delivery_datetime - reservation_date).days
+    print(request.data)
+    print(room.price)
+    print(amount)
+    print(reserve_date)
+    print(delivery_date)
+    if days <= 0:
+        return Response(
+            {"error": "تاریخ خروج باید بعد از تاریخ ورود باشد."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    total_price = room.price * days
+
+    amount = Decimal(str(amount))
+
+    if amount > total_price:
+      return Response(
+        {"error": "مبلغ پرداختی بیشتر از مبلغ کل رزرو است."},
+        status=status.HTTP_400_BAD_REQUEST
+    )
 
     payment, created = Payment.objects.get_or_create(
         reservation=reservation_obj,
-        defaults={
-            'passenger': passenger,
-            'allpaid': Decimal(str(amount)),
-            'tuition': Decimal(str(amount)),
-        },
+        
     )
-
+    payment.allpaid = total_price
+    payment.tuition = amount
+    payment.save()
+    print("room.price =", room.price)
+    print("payment.allpaid =", payment.allpaid)
+    print("amount =", amount)
+    if amount > payment.allpaid:
+      return Response(
+          {
+              "error": "مبلغ پرداختی بیشتر از مبلغ اقامتگاه است."
+          },
+          status=status.HTTP_400_BAD_REQUEST
+      )
     if not created:
-        payment.allpaid = Decimal(str(amount))
-        payment.tuition = Decimal(str(amount))
-        payment.save(update_fields=['allpaid', 'tuition'])
-
+      payment.tuition = amount
+      payment.save()
     return Response({
         'message': 'payment created successfully' if created else 'payment already existed and was updated',
         'payment': {

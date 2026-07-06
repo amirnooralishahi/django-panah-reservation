@@ -4,7 +4,7 @@
     <div
       class="search-contain w-100 gap-5 d-flex justify-content-center align-items-center"
     >
-      <div class="center d-flex flex-column align-items-center gap-3 ">
+      <div class="center d-flex flex-column align-items-center gap-3">
         <span class="vila text-white fw-bold rounded-3 p-2 text-center"
           >اجاره ویلا و سوئیت در سراسر ایران
         </span>
@@ -31,20 +31,33 @@
       </div>
     </div>
   </div>
-  <Destination />
+  <Destination @select-city="selectCity" />
   <Speed />
 
   <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h3 class="fw-bold text-end">اقامتگاه‌های پیشنهادی</h3>
-      <router-link to="/room" class="text-success fw-bold">مشاهده همه</router-link>
+      <router-link to="/room" class="text-success fw-bold"
+        >مشاهده همه</router-link
+      >
     </div>
 
-    <div v-if="loadingRooms" class="text-center py-4">در حال بارگذاری اقامتگاه‌ها…</div>
-    <div v-else-if="roomsError" class="alert alert-danger">{{ roomsError }}</div>
+    <div v-if="loadingRooms" class="text-center py-4">
+      در حال بارگذاری اقامتگاه‌ها…
+    </div>
+    <div v-else-if="roomsError" class="alert alert-danger">
+      {{ roomsError }}
+    </div>
     <div v-else class="row g-4">
-      <div v-for="(room, index) in rooms.slice(0, 6)" :key="room.id ?? room.Dormitory ?? index" class="col-12 col-md-6 col-lg-4">
-        <item-room :room="room" :image="previewImages[index % previewImages.length]" />
+      <div
+        v-for="(room, index) in rooms.slice(0, 6)"
+        :key="room.id ?? room.Dormitory ?? index"
+        class="col-12 col-md-6 col-lg-4"
+      >
+        <item-room
+          :room="room"
+          :image="previewImages[index % previewImages.length]"
+        />
       </div>
     </div>
   </div>
@@ -159,7 +172,7 @@
       </div>
     </div>
   </div>
-  <Destination />
+  <Destination @select-city="selectCity" />
   <div class="travel">
     <div class="travel-container d-flex justify-content-center">
       <div class="d-flex flex-column text">
@@ -180,7 +193,7 @@
             بهتر و دلسوزانه‌تر می‌سازیم. اگر بخواهی، می‌توانم همین
           </span>
           <span class="matn text-end fw-bold">
-      پناه در لحظه ها و ثانیه های شرایط سخت کشور عزیزمون در کنار شماست. 
+            پناه در لحظه ها و ثانیه های شرایط سخت کشور عزیزمون در کنار شماست.
           </span>
         </div>
 
@@ -280,7 +293,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import itemRoom from "./itemRoom.vue";
 import { ref, onMounted, watch } from "vue";
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from "vue-router";
 import Destination from "./destination.vue";
 import Speed from "./speed.vue";
 import Header from "./header.vue";
@@ -299,9 +312,16 @@ const rooms = ref([]);
 const loadingRooms = ref(true);
 const roomsError = ref("");
 const searchQuery = ref("");
-const route = useRoute()
-const router = useRouter()
-const previewImages = [roomImage1, roomImage2, roomImage3, roomImage4, roomImage5, roomImage6];
+const route = useRoute();
+const router = useRouter();
+const previewImages = [
+  roomImage1,
+  roomImage2,
+  roomImage3,
+  roomImage4,
+  roomImage5,
+  roomImage6,
+];
 
 function retuer() {
   click.value = !click.value;
@@ -323,21 +343,35 @@ async function loadRooms(search = "") {
 
 async function handleSearch() {
   // navigate to results page with query so the rooms view shows filtered results
-  const q = searchQuery.value.trim()
-  await router.push({ path: '/room', query: q ? { search: q } : {} })
+  const q = searchQuery.value.trim();
+  await router.push({ path: "/room", query: q ? { search: q } : {} });
 }
+const selectCity = async (city) => {
+  searchQuery.value = city;
+
+  await router.push({
+    path: "/room",
+    query: {
+      search: city,
+    },
+  });
+};
 
 // load based on route query
-watch(() => route.query.search, (s) => {
-  const q = s || ''
-  searchQuery.value = q
-  loadRooms(q)
-}, { immediate: true })
+watch(
+  () => route.query.search,
+  (s) => {
+    const q = s || "";
+    searchQuery.value = q;
+    loadRooms(q);
+  },
+  { immediate: true },
+);
 
 onMounted(async () => {
-  const q = route.query.search || ''
-  searchQuery.value = q
-  await loadRooms(q)
+  const q = route.query.search || "";
+  searchQuery.value = q;
+  await loadRooms(q);
 });
 
 const onSwiperInit = (swiper) => {

@@ -7,4 +7,8 @@ urlpatterns = [
   path('reserve', views.reserveRoom.as_view(), name='ReserveRoom'),
   path('detailReserve/<int:pk>', views.detailReserveRoom.as_view(), name='DetailReserve'),
   path('uploadImage', views.uploadImage.as_view(), name='uploadImage'),
+  path(
+    "<int:room_id>/reservations/",
+    views.RoomReservationList.as_view(),
+),
 ]

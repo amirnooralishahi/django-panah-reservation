@@ -89,3 +89,7 @@ export async function payForRoom(payload) {
     body: JSON.stringify(payload),
   })
 }
+
+export async function fetchReservations(roomId) {
+    return request(`/room/${roomId}/reservations/`)
+}

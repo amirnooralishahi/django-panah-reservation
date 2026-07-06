@@ -64,3 +64,17 @@ class RoomCreateWithImagesSerializer(serializers.ModelSerializer):
             RoomImage.objects.create(room=room, image=image)
         return room
 
+class ReservationDateSerializer(serializers.ModelSerializer):
+
+    start = serializers.SerializerMethodField()
+    end = serializers.SerializerMethodField()
+
+    class Meta:
+        model = reservation
+        fields = ["start", "end"]
+
+    def get_start(self, obj):
+        return obj.ReservDate.date()
+
+    def get_end(self, obj):
+        return obj.DeliveryDate.date()
