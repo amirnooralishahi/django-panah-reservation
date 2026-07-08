@@ -1,13 +1,22 @@
 <template>
   <Header />
-  <div class="container py-5" dir="rtl">
+  <div class="container py-5 mt-3" dir="rtl">
+    <div v-if="message" class="alert alert-success alert-dismissible fade show">
+      {{ message }}
+      <button type="button" class="btn-close" @click="message = ''"></button>
+    </div>
+    <div v-if="error" class="alert alert-danger alert-dismissible fade show">
+      {{ error }}
+
+      <button type="button" class="btn-close" @click="error = ''"></button>
+    </div>
     <div class="mb-3">
       <router-link to="/" class="btn btn-outline-secondary"
         >بازگشت به صفحه اصلی</router-link
       >
     </div>
     <div class="card shadow-sm border-0">
-      <div class="card-body">
+      <div class="card-body ">
         <div
           class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4"
         >
@@ -95,9 +104,7 @@
                   <button class="btn btn-success mt-4" @click="saveProfile">
                     ذخیره تغییرات
                   </button>
-                  <div v-if="message" class="alert alert-success mt-3 mb-0">
-                    {{ message }}
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -127,7 +134,7 @@
         <div
           v-for="room in myRooms"
           :key="room.id"
-          class="card my-3 shadow-sm p-3"
+          class="card my-3 shadow"
         >
           <img
             v-if="room.images.length"
@@ -197,22 +204,19 @@
           </div>
         </div>
       </div>
-      <div v-else>
 
-    <h3 class="mt-5">
-        رزروهای من
-    </h3>
+      <div v-else class="alert alert-info mt-3">
+        هنوز هیچ اقامتگاهی ثبت نکرده اید
+      </div>
+    </div>
+    <div v-else>
+      <h3 class="mt-5">رزروهای من</h3>
 
-    <div
-        v-for="item in myReservations"
-        :key="item.id"
-        class="room-card"
-    >
-
+      <div v-for="item in myReservations" :key="item.id" class="room-card">
         <img
-            v-if="item.image"
-            :src="'http://127.0.0.1:8000' + item.image"
-            width="250"
+          v-if="item.image"
+          :src="'http://127.0.0.1:8000' + item.image"
+          width="250"
         />
 
         <h4>{{ item.room_name }}</h4>
@@ -220,18 +224,18 @@
         <p>{{ item.city }}</p>
 
         <p>
-            ورود:
-            {{ item.ReservDate }}
+          ورود:
+          {{ item.ReservDate }}
         </p>
 
         <p>
-            خروج:
-            {{ item.DeliveryDate }}
+          خروج:
+          {{ item.DeliveryDate }}
         </p>
-
-    </div>
-
-</div>
+      </div>
+      <div v-if="!myReservations.length" class="alert alert-info mt-3">
+        هنوز رزروی ثبت نکرده اید
+      </div>
     </div>
   </div>
 </template>
@@ -249,13 +253,12 @@ import {
   deleteRoom,
 } from "@/services/api";
 const myRooms = ref([]);
-const myReservations =ref([])
+const myReservations = ref([]);
 const isHost = computed(
   () => localStorage.getItem("user_role") === "home_owner",
 );
 const message = ref("");
 const error = ref("");
-const hostRoomError = ref("");
 const profile = ref({
   username: "",
   slug: "",
@@ -269,33 +272,6 @@ const profile = ref({
 const editingRoomId = ref(null);
 const roomEdits = ref({});
 
-function getMediaUrl(path) {
-  if (!path) return "";
-  if (path.startsWith("http") || path.startsWith("/")) {
-    return path;
-  }
-  return `/${path}`;
-}
-
-async function loadHostRooms(ownerId) {
-  if (!ownerId) {
-    hostRooms.value = [];
-    return;
-  }
-
-  try {
-    hostRoomError.value = "";
-    const data = await fetchRooms();
-    const rooms = Array.isArray(data) ? data : data?.results || [];
-    // hostRooms.value = rooms.filter(
-    //   (room) => String(room.owner) === String(ownerId),
-    // );
-  } catch (err) {
-    hostRoomError.value =
-      err.message || "بارگذاری اقامتگاه‌های میزبان با خطا مواجه شد.";
-    // hostRooms.value = [];
-  }
-}
 
 async function loadProfile() {
   message.value = "";
@@ -322,10 +298,7 @@ async function loadProfile() {
       localStorage.setItem("profile_id", profile.value.id);
     }
 
-    if (isHost.value) {
-      const ownerId = profile.value.id || localStorage.getItem("profile_id");
-      await loadHostRooms(ownerId);
-    }
+    
   } catch (err) {
     error.value = err.message || "بارگذاری اطلاعات پروفایل با خطا مواجه شد.";
   }
@@ -353,38 +326,39 @@ async function saveProfile() {
   }
 }
 
-function startEditRoom(room){
+function startEditRoom(room) {
+try{
+  editingRoomId.value = room.id;
 
-    editingRoomId.value = room.id;
+  roomEdits.value = {
+    location: room.location,
 
-    roomEdits.value = {
+    city: room.city,
 
-        location: room.location,
+    price: room.price,
 
-        city: room.city,
+    Dormitory: room.Dormitory,
 
-        price: room.price,
+    building_Information: room.building_Information,
 
-        Dormitory: room.Dormitory,
+    Bed_Service: room.Bed_Service,
 
-        building_Information: room.building_Information,
+    Toilet_Bathroom: room.Toilet_Bathroom,
 
-        Bed_Service: room.Bed_Service,
+    Accommodation_cap: room.Accommodation_cap,
 
-        Toilet_Bathroom: room.Toilet_Bathroom,
+    Perspective: room.Perspective,
 
-        Accommodation_cap: room.Accommodation_cap,
+    Internal_Faclities: room.Internal_Faclities,
 
-        Perspective: room.Perspective,
+    Additional_details: room.Additional_details,
 
-        Internal_Faclities: room.Internal_Faclities,
-
-        Additional_details: room.Additional_details,
-
-        time_reserve: room.time_reserve
-
-    }
-
+    time_reserve: room.time_reserve,
+  };
+}catch{ 
+  error.value="انجام نشد"
+}
+  
 }
 
 function cancelEditRoom() {
@@ -393,40 +367,30 @@ function cancelEditRoom() {
 }
 
 async function saveRoom(id) {
-
   try {
-
     const updated = await updateRoom(id, roomEdits.value);
 
-    const index = myRooms.value.findIndex(
-      room => room.id === id
-    );
+    const index = myRooms.value.findIndex((room) => room.id === id);
 
-    if(index !== -1){
-
+    if (index !== -1) {
       myRooms.value[index] = {
         ...myRooms.value[index],
-        ...updated
-      }
-
+        ...updated,
+      };
     }
 
     editingRoomId.value = null;
 
     roomEdits.value = {};
 
-    alert("ویرایش انجام شد");
-
-  }
-
-  catch(err){
-
+    message.value = "اقامتگاه با موفقیت ویرایش شد";
+    error.value = "";
+  } catch (err) {
     console.log(err);
 
-    alert("خطا در ویرایش");
-
+    error.value = "ویرایش انجام نشد";
+    message.value = "";
   }
-
 }
 
 onMounted(async () => {
@@ -436,17 +400,22 @@ onMounted(async () => {
   if (role === "home_owner") {
     const rooms = await fetchMyRooms();
     myRooms.value = rooms;
-
-  }else{ 
-    myReservations.value = await fetchMyReservations(); 
+  } else {
+    myReservations.value = await fetchMyReservations();
   }
 });
 async function removeRoom(id) {
   if (!confirm("آیا مطمئن هستید؟")) return;
-
+try{
   await deleteRoom(id);
 
   myRooms.value = myRooms.value.filter((room) => room.id !== id);
+  message.value = "اقامتگاه حذف شد";
+  
+}catch{ 
+  error.value = "حذف انجام نشد ";
+}
+  
 }
 </script>
 
