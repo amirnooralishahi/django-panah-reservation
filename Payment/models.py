@@ -34,6 +34,6 @@ class RecordReserve(models.Model):
    date = models.DateField(auto_now_add=True)
 
    def __str__(self):
-       return f'{self.passenger}-{self.date}-{self.owner_room}'
+       return f'{self.passenger}-{self.date}'
 
 

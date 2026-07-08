@@ -84,3 +84,38 @@ class MyRoomSer(serializers.ModelSerializer):
     class Meta : 
         model = Rooms 
         fields='__all__'
+        
+
+class MyReservationSerializer(serializers.ModelSerializer):
+
+    room_name = serializers.CharField(
+        source="room.Dormitory",
+        read_only=True
+    )
+
+    city = serializers.CharField(
+        source="room.city",
+        read_only=True
+    )
+
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = reservation
+        fields = [
+            "id",
+            "room_name",
+            "city",
+            "ReservDate",
+            "DeliveryDate",
+            "image",
+        ]
+
+    def get_image(self, obj):
+
+        first = obj.room.images.first()
+
+        if first:
+            return first.image.url
+
+        return None

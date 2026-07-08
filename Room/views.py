@@ -8,7 +8,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from .models import Rooms,reservation,RoomImage,User_home_owner
-from .serializers import RoomSer,RoomCreateWithImagesSerializer,ReserveSer,RoomImageSer,ReservationDateSerializer,MyRoomSer
+from .serializers import RoomSer,RoomCreateWithImagesSerializer,ReserveSer,RoomImageSer,ReservationDateSerializer,MyRoomSer,MyReservationSerializer
 from .permission import IsInspectorMember
  # Create your views here.
 
@@ -34,13 +34,15 @@ class RoomCreateWithImagesView(APIView):
         ser = RoomSer(instance=instance, many=True)
         return Response(ser.data)
     def post(self, request):
-
+        try: 
+          owner = User_home_owner.objects.get(user=request.user)
+        except User_home_owner.DoesNotExist : 
+          return Response( 
+                          {'message': "فقط میزبان میتواند اقامتگاه ثبت کند "}
+                          , status=status.HTTP_403_FORBIDDEN)
         serializer = RoomCreateWithImagesSerializer(data=request.data)
 
         if serializer.is_valid():
-
-            owner = User_home_owner.objects.get(user=request.user)
-
             room = serializer.save(owner=owner)
 
             return Response(
@@ -69,7 +71,10 @@ class RoomDetail(APIView):
     return Response(ser.data, status=status.HTTP_200_OK)
   
   def put(self,request, pk ) :
-    instance=Rooms.objects.get(id= pk)
+    instance=get_object_or_404(Rooms,id=pk,owner__user=request.user)
+    if instance.owner.user !=request.user : 
+      return Response ( {'message' : "شما اجازه ویرایش این اقامتگاه را ندارید "}, 
+                       status=status.HTTP_403_FORBIDDEN)
     ser= RoomSer(instance,data=request.data,partial=True)
     if ser.is_valid( ):
       ser.save( )
@@ -77,7 +82,10 @@ class RoomDetail(APIView):
     return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
   def delete(self, request, pk):
     try:
-      instance = Rooms.objects.get(id=pk)
+      instance =get_object_or_404(Rooms,id=pk,owner__user=request.user)
+      if instance.owner.user !=request.user: 
+        return Response( {'message': "شما اجازه حذف این اقامتگاه و نداری"})
+      
     except Rooms.DoesNotExist:
       return Response({'message': 'instance not found'}, status=status.HTTP_404_NOT_FOUND)
     instance.delete()
@@ -215,6 +223,25 @@ class MyRoomsView(APIView):
 
         serializer = MyRoomSer(
             rooms,
+            many=True
+        )
+
+        return Response(serializer.data)
+      
+class MyReservationsView(APIView):
+
+    renderer_classes = [JSONRenderer]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        reservations = reservation.objects.filter(
+            passenger__user=request.user
+        ).select_related("room").prefetch_related("room__images")
+
+        serializer = MyReservationSerializer(
+            reservations,
             many=True
         )
 

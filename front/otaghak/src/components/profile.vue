@@ -197,6 +197,41 @@
           </div>
         </div>
       </div>
+      <div v-else>
+
+    <h3 class="mt-5">
+        رزروهای من
+    </h3>
+
+    <div
+        v-for="item in myReservations"
+        :key="item.id"
+        class="room-card"
+    >
+
+        <img
+            v-if="item.image"
+            :src="'http://127.0.0.1:8000' + item.image"
+            width="250"
+        />
+
+        <h4>{{ item.room_name }}</h4>
+
+        <p>{{ item.city }}</p>
+
+        <p>
+            ورود:
+            {{ item.ReservDate }}
+        </p>
+
+        <p>
+            خروج:
+            {{ item.DeliveryDate }}
+        </p>
+
+    </div>
+
+</div>
     </div>
   </div>
 </template>
@@ -210,9 +245,11 @@ import {
   updateRoom,
   updateUserProfile,
   fetchMyRooms,
+  fetchMyReservations,
   deleteRoom,
 } from "@/services/api";
 const myRooms = ref([]);
+const myReservations =ref([])
 const isHost = computed(
   () => localStorage.getItem("user_role") === "home_owner",
 );
@@ -398,12 +435,10 @@ onMounted(async () => {
 
   if (role === "home_owner") {
     const rooms = await fetchMyRooms();
-
-    console.log("MY ROOMS =", rooms);
-    console.log(rooms[0]);
-    console.log(rooms[0].images);
-
     myRooms.value = rooms;
+
+  }else{ 
+    myReservations.value = await fetchMyReservations(); 
   }
 });
 async function removeRoom(id) {

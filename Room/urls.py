@@ -1,15 +1,33 @@
 from django.urls import path
 from . import views
+
 urlpatterns = [
-  path('', views.RoomCreateWithImagesView.as_view(), name='roomList'),
-  path('detail/<int:pk>', views.RoomDetail.as_view(), name='DetailRoom'),
-  path('upload-images/', views.RoomCreateWithImagesView.as_view(), name='createRoomImage'),
-  path('reserve', views.reserveRoom.as_view(), name='ReserveRoom'),
-  path('detailReserve/<int:pk>', views.detailReserveRoom.as_view(), name='DetailReserve'),
-  path('uploadImage', views.uploadImage.as_view(), name='uploadImage'),
-  path(
-    "<int:room_id>/reservations/",
-    views.RoomReservationList.as_view(),
-),
-  path('my-rooms/',views.MyRoomsView.as_view())
+    path('', views.RoomCreateWithImagesView.as_view(), name='roomList'),
+
+    path('detail/<int:pk>', views.RoomDetail.as_view(), name='DetailRoom'),
+
+    path('upload-images/', views.RoomCreateWithImagesView.as_view(), name='createRoomImage'),
+
+    path('reserve', views.reserveRoom.as_view(), name='ReserveRoom'),
+
+    path('detailReserve/<int:pk>', views.detailReserveRoom.as_view(), name='DetailReserve'),
+
+    path('uploadImage', views.uploadImage.as_view(), name='uploadImage'),
+
+    path(
+        "<int:room_id>/reservations/",
+        views.RoomReservationList.as_view(),
+    ),
+
+    path(
+        "my-reservations/",
+        views.MyReservationsView.as_view(),
+        name="my-reservations",
+    ),
+
+    path(
+        "my-rooms/",
+        views.MyRoomsView.as_view(),
+        name="my-rooms",
+    ),
 ]

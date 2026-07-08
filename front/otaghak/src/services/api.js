@@ -145,3 +145,6 @@ export async function deleteRoom(id) {
     method: "DELETE",
   });
 }
+export async function fetchMyReservations() {
+  return request("/room/my-reservations/");
+}
