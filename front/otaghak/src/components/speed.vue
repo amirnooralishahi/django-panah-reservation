@@ -22,36 +22,36 @@
                 :space-between="12"
                 :navigation="{ nextEl: '.custom-nexty', prevEl: '.custom-prevy' }"
                 class="custom-swiper p-4">
-                <swiper-slide class="img d-flex flex-column rounded-2"><img src="./../../New_folder/ram.jpeg" alt="Image 1" class="img-fluid rounded-3"/>
+                <swiper-slide class="img d-flex flex-column rounded-2" @click="selectCity('رامسر')"><img src="./../../New_folder/ram.jpeg" alt="Image 1" class="img-fluid rounded-3"/>
                 <span class="text-end  p-2">رامسر</span>
             </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-2">
+                <swiper-slide class="img d-flex flex-column rounded-2" @click="selectCity('ماسال')">
                     <img src="./../../New_folder/masa.jpeg" alt="Image 2" class="img-fluid rounded-3"/>
                 <span class="text-end p-2">ماسال</span>
             </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-2 "><img src="./../../New_folder/kord.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
+                <swiper-slide class="img d-flex flex-column rounded-2 " @click="selectCity('کردان')"><img src="./../../New_folder/kord.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
                 <span class="text-end p-2">کردان</span>
             </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-2 "><img src="./../../New_folder/tehr.jpeg" alt="Image 1" class="img-fluid rounded-3"/>
+                <swiper-slide class="img d-flex flex-column rounded-2 " @click="selectCity('تهران')"><img src="./../../New_folder/tehr.jpeg" alt="Image 1" class="img-fluid rounded-3"/>
                 <span class="text-end p-2">تهران</span>
             </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-2 "><img src="./../../New_folder/banda.jpeg" alt="Image 2" class="img-fluid rounded-3"/>
+                <swiper-slide class="img d-flex flex-column rounded-2 " @click="selectCity('بندر انزلی')"><img src="./../../New_folder/banda.jpeg" alt="Image 2" class="img-fluid rounded-3"/>
                 <span class="text-end p-2">بندر انزلی</span>
             </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-3 "><img src="./../../New_folder/mahmo.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
+                <swiper-slide class="img d-flex flex-column rounded-3 " @click="selectCity('محمود آباد')"><img src="./../../New_folder/mahmo.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
                 <span class="text-end p-2">محمود آباد</span>
             </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-3 "><img src="./../../New_folder/chal.jpeg" alt="Image 1" class="img-fluid rounded-3"/>
+                <swiper-slide class="img d-flex flex-column rounded-3 " @click="selectCity('چالوس')"><img src="./../../New_folder/chal.jpeg" alt="Image 1" class="img-fluid rounded-3"/>
                 <span class="text-end p-2">چالوس</span>
             </swiper-slide>
-                <swiper-slide class="img d-flex flex-column "><img src="./../../New_folder/kish.jpeg" alt="Image 2" class="img-fluid rounded-3"/>
+                <swiper-slide class="img d-flex flex-column " @click="selectCity('کیش')"><img src="./../../New_folder/kish.jpeg" alt="Image 2" class="img-fluid rounded-3"/>
                 <span class="text-end p-2">کیش</span>
             </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-3 "><img src="./../../New_folder/rash.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
+                <swiper-slide class="img d-flex flex-column rounded-3 " @click="selectCity('رشت')"><img src="./../../New_folder/rash.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
                 <span class="text-end p-2">رشت</span>
             </swiper-slide>
 
-                <swiper-slide class="img d-flex flex-column  rounded-3 "><img src="./../../New_folder/nosh.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
+                <swiper-slide class="img d-flex flex-column  rounded-3 " @click="selectCity('نوشهر')"><img src="./../../New_folder/nosh.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
                     <span class="op text-end p-2">نوشهر</span>
                 </swiper-slide>
             </swiper>
@@ -70,6 +70,12 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Autoplay } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
+
+const emit = defineEmits(["select-city"]);
+
+const selectCity = (city) => {
+  emit("select-city", city);
+};
 
 </script>
 

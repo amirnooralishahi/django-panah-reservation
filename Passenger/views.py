@@ -27,6 +27,7 @@ class RegisterView(APIView):
         email = request.data.get("email")
         password = request.data.get("password")
         national_code = request.data.get("national_code")
+        user_type = request.data.get("user_type", "war_struck")
 
         if not username or not email or not password or not national_code:
             return Response({"error": "username, email, password and national_code are required"}, status=400)
@@ -34,23 +35,30 @@ class RegisterView(APIView):
         if User.objects.filter(username=username).exists():
             return Response({"error": "username already exists"}, status=400)
 
-        user = User.objects.create_user(username=username, email=email, password=password, user_type='war_struck')
-        profile, _ = User_war_struck.objects.get_or_create(
-            user=user,
-            defaults={'email': email, 'NationalCode': national_code}
-        )
-        profile.email = email
-        profile.NationalCode = national_code
-        profile.save(update_fields=['email', 'NationalCode'])
+        if user_type == "home_owner":
 
-        refresh = RefreshToken.for_user(user)
+            profile = User_home_owner.objects.create(
+                user=username,
+                email=email,
+                NationalCode=national_code,
+            )
+
+        else:
+
+            profile = User_war_struck.objects.create(
+                user=username,
+                email=email,
+                NationalCode=national_code,
+            )
+
+        refresh = RefreshToken.for_user(username)
         response = Response({
             "message": "registered successfully",
             "user": {
-                "id": user.id,
-                "username": user.username,
-                "email": user.email,
-                "user_type": user.user_type,
+                "id": username.id,
+                "username": username.username,
+                "email": username.email,
+                "user_type": username.user_type,
             },
             "profile": {
                 "id": profile.id,
@@ -76,13 +84,19 @@ class RegisterView(APIView):
 class CustomLoginView(APIView):
     renderer_classes = [JSONRenderer]
     permission_classes = [AllowAny]
-
     def post(self, request):
       identifier = request.data.get("username") or request.data.get("identifier") or request.data.get("email") or request.data.get("phone")
       password = request.data.get("password")
 
-      user_obj = None
+      user = authenticate(
+    username=user_obj.username,
+    password=password
+)
       # try email
+      print("identifier =", identifier)
+      print("password =", password)
+      print("user_obj =", user_obj)
+          
       if identifier and "@" in identifier:
         user_obj = User.objects.filter(email__iexact=identifier).first()
 
@@ -104,7 +118,10 @@ class CustomLoginView(APIView):
 
       if user:
         refresh = RefreshToken.for_user(user)
-        profile = User_war_struck.objects.filter(user=user).first()
+        if user.user_type == "home_owner":
+          profile = User_home_owner.objects.filter(user=user).first()
+        else:
+          profile = User_war_struck.objects.filter(user=user).first()
         res = Response({
           "message": "login successful",
           "access": str(refresh.access_token),
@@ -131,6 +148,7 @@ class CustomLoginView(APIView):
           samesite='Lax',
           max_age=3600
         )
+        print("authenticate =", user)
         return res
       else:
         return Response({"error": "Invalid credentials"}, status=401)
@@ -207,25 +225,3 @@ class UserProfileView(APIView):
       return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class HostRequestView(APIView):
-  renderer_classes = [JSONRenderer]
-  permission_classes = [AllowAny]
-
-  def post(self, request):
-    name = request.data.get('name')
-    contact = request.data.get('contact')
-    property_title = request.data.get('propertyTitle')
-    description = request.data.get('description')
-
-    if not name or not contact:
-      return Response({'error': 'name and contact are required'}, status=status.HTTP_400_BAD_REQUEST)
-
-    return Response({
-      'message': 'Host request received successfully',
-      'data': {
-        'name': name,
-        'contact': contact,
-        'propertyTitle': property_title,
-        'description': description,
-      }
-    }, status=status.HTTP_201_CREATED)

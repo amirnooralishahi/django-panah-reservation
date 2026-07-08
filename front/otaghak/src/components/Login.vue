@@ -97,7 +97,8 @@ const submitLogin = async () => {
     localStorage.setItem('user_role', selectedRole.value === 'host' ? 'host' : 'guest')
     window.dispatchEvent(new Event('auth:changed'))
     successMessage.value = 'ورود با موفقیت انجام شد. اکنون می‌توانید به بخش‌های دیگر بروید.'
-    router.push(selectedRole.value === 'host' ? '/host' : '/')
+    // Redirect all users to the main page after login (hosts should land on the main page)
+    router.push('/')
   } catch (error) {
     errorMessage.value = error.message || 'خطا در ورود. مجدداً تلاش کنید.'
   }

@@ -32,7 +32,7 @@
     </div>
   </div>
   <Destination @select-city="selectCity" />
-  <Speed />
+  <Speed @select-city="selectCity" />
 
   <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-3">

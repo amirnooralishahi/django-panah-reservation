@@ -25,7 +25,6 @@ class RoomSer(serializers.ModelSerializer) :
 
 
 class RoomCreateWithImagesSerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(queryset=User_home_owner.objects.all())
     images = serializers.ListField(
         child=serializers.ImageField(),
         write_only=True,
@@ -35,22 +34,21 @@ class RoomCreateWithImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rooms
         fields = [
-            'id',
-            'owner',
-            'location',
-            'city',
-            'Dormitory',
-            'building_Information',
-            'Bed_Service',
-            'Toilet_Bathroom',
-            'Accommodation_cap',
-            'Perspective',
-            'Internal_Faclities',
-            'Additional_details',
-            'time_reserve',
-            'price',
-            'images',
-        ]
+    "id",
+    "location",
+    "city",
+    "Dormitory",
+    "building_Information",
+    "Bed_Service",
+    "Toilet_Bathroom",
+    "Accommodation_cap",
+    "Perspective",
+    "Internal_Faclities",
+    "Additional_details",
+    "time_reserve",
+    "price",
+    "images",
+]
 
     def validate_images(self, value):
         if not value or len(value) == 0:

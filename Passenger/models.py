@@ -15,6 +15,7 @@ class User(AbstractUser):
         null=True,
         blank=True
     )
+
 class User_war_struck(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     slug=models.SlugField(unique=True)
@@ -24,6 +25,7 @@ class User_war_struck(models.Model):
     Job_title = models.CharField(max_length=100,default='default job')
     picture= models.ImageField(upload_to='profile_picture',null=True,
                                default='default.png')
+
     def __str__(self):
         return f' {self.user}'
 
@@ -41,7 +43,6 @@ class User_war_struck(models.Model):
     class Meta:
         pass
     
-
 
 class User_home_owner(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -53,6 +54,7 @@ class User_home_owner(models.Model):
 
     picture= models.ImageField(upload_to='profile_picture',null=True,
                                 default='default.png')
+
     def __str__(self):
         return f' {self.user}'
 
@@ -69,4 +71,5 @@ class User_home_owner(models.Model):
 
     class Meta:
         pass
-    
+
+

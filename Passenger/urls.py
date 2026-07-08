@@ -7,7 +7,6 @@ path('api-UserDetail/<int:pk>', views.PassengerDetail.as_view(), name='Passenger
 path('api/custom-login/', views.CustomLoginView.as_view(), name='custom_login'),
 path('api/register/', views.RegisterView.as_view(), name='register'),
 path('api/my-profile/', views.UserProfileView.as_view(), name='my_profile'),
-path('api/host-request/', views.HostRequestView.as_view(), name='hostRequest'),
 path('api/logout/', views.LogoutView.as_view(), name='logout'),
 
 

@@ -77,11 +77,12 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import Header from './header.vue'
-import { fetchUserProfile, updateUserProfile } from '@/services/api'
+import { fetchRooms, fetchUserProfile, updateRoom, updateUserProfile } from '@/services/api'
 
 const isHost = computed(() => (typeof window !== 'undefined' ? localStorage.getItem('user_role') : 'guest') === 'host')
 const message = ref('')
 const error = ref('')
+const hostRoomError = ref('')
 const profile = ref({
   username: '',
   slug: '',
@@ -89,7 +90,36 @@ const profile = ref({
   phone: '',
   NationalCode: '',
   Job_title: '',
+  id: null,
 })
+const hostRooms = ref([])
+const editingRoomId = ref(null)
+const roomEdits = ref({})
+
+function getMediaUrl(path) {
+  if (!path) return ''
+  if (path.startsWith('http') || path.startsWith('/')) {
+    return path
+  }
+  return `/${path}`
+}
+
+async function loadHostRooms(ownerId) {
+  if (!ownerId) {
+    hostRooms.value = []
+    return
+  }
+
+  try {
+    hostRoomError.value = ''
+    const data = await fetchRooms()
+    const rooms = Array.isArray(data) ? data : data?.results || []
+    hostRooms.value = rooms.filter(room => String(room.owner) === String(ownerId))
+  } catch (err) {
+    hostRoomError.value = err.message || 'بارگذاری اقامتگاه‌های میزبان با خطا مواجه شد.'
+    hostRooms.value = []
+  }
+}
 
 async function loadProfile() {
   message.value = ''
@@ -109,6 +139,16 @@ async function loadProfile() {
       phone: data.phone || '',
       NationalCode: data.NationalCode || '',
       Job_title: data.Job_title || '',
+      id: data.id || null,
+    }
+
+    if (profile.value.id) {
+      localStorage.setItem('profile_id', profile.value.id)
+    }
+
+    if (isHost.value) {
+      const ownerId = profile.value.id || localStorage.getItem('profile_id')
+      await loadHostRooms(ownerId)
     }
   } catch (err) {
     error.value = err.message || 'بارگذاری اطلاعات پروفایل با خطا مواجه شد.'
@@ -134,6 +174,40 @@ async function saveProfile() {
     message.value = 'تغییرات با موفقیت ذخیره شد.'
   } catch (err) {
     error.value = err.message || 'ذخیره‌سازی با خطا مواجه شد.'
+  }
+}
+
+function startEditRoom(room) {
+  editingRoomId.value = room.id
+  roomEdits.value = {
+    location: room.location || '',
+    city: room.city || '',
+    price: room.price || '',
+    Dormitory: room.Dormitory || '',
+    building_Information: room.building_Information || '',
+    Bed_Service: room.Bed_Service || '',
+    Toilet_Bathroom: room.Toilet_Bathroom || '',
+    Internal_Faclities: room.Internal_Faclities || '',
+    Additional_details: room.Additional_details || '',
+  }
+}
+
+function cancelEditRoom() {
+  editingRoomId.value = null
+  roomEdits.value = {}
+}
+
+async function saveRoom(roomId) {
+  try {
+    const updated = await updateRoom(roomId, roomEdits.value)
+    const index = hostRooms.value.findIndex(room => room.id === roomId)
+    if (index !== -1) {
+      hostRooms.value[index] = { ...hostRooms.value[index], ...updated }
+    }
+    editingRoomId.value = null
+    message.value = 'اطلاعات اقامتگاه با موفقیت به‌روزرسانی شد.'
+  } catch (err) {
+    error.value = err.message || 'خطا در به‌روزرسانی اقامتگاه.'
   }
 }
 

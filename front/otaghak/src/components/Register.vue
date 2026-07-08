@@ -1,5 +1,7 @@
 <template>
-  <div class="register-page d-flex flex-column align-items-center justify-content-center py-5">
+  <div
+    class="register-page d-flex flex-column align-items-center justify-content-center py-5"
+  >
     <div class="register-card rounded-4 shadow-sm p-4 w-100">
       <div class="header-section text-center mb-4">
         <h1>ثبت‌نام در پناه</h1>
@@ -11,11 +13,27 @@
         <input v-model="form.email" type="email" placeholder="ایمیل" />
         <input v-model="form.password" type="password" placeholder="رمز عبور" />
         <input v-model="form.national_code" placeholder="کد ملی" />
+        <div class="role-selector">
+          <label>
+            <input type="radio" value="war_struck" v-model="form.user_type" />
 
+            متقاضی
+          </label>
+
+          <label>
+            <input type="radio" value="home_owner" v-model="form.user_type" />
+
+            میزبان
+          </label>
+        </div>
         <button class="submit-button" @click="submitRegister">ثبت‌نام</button>
 
-        <div v-if="successMessage" class="alert alert-success">{{ successMessage }}</div>
-        <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+        <div v-if="successMessage" class="alert alert-success">
+          {{ successMessage }}
+        </div>
+        <div v-if="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+        </div>
 
         <div class="text-center">
           <router-link to="/login">قبلاً حساب دارید؟ ورود</router-link>
@@ -26,32 +44,33 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { register } from '@/services/api'
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { register } from "@/services/api";
 
-const router = useRouter()
+const router = useRouter();
 const form = reactive({
-  username: '',
-  email: '',
-  password: '',
-  national_code: '',
-})
-const errorMessage = ref('')
-const successMessage = ref('')
+  username: "",
+  email: "",
+  password: "",
+  national_code: "",
+  user_type: "war_struck",
+});
+const errorMessage = ref("");
+const successMessage = ref("");
 
 const submitRegister = async () => {
-  errorMessage.value = ''
-  successMessage.value = ''
+  errorMessage.value = "";
+  successMessage.value = "";
 
   try {
-    await register(form)
-    successMessage.value = 'ثبت‌نام با موفقیت انجام شد.'
-    router.push('/')
+    await register(form);
+    successMessage.value = "ثبت‌نام با موفقیت انجام شد.";
+    router.push("/");
   } catch (error) {
-    errorMessage.value = error.message || 'ثبت‌نام با خطا مواجه شد.'
+    errorMessage.value = error.message || "ثبت‌نام با خطا مواجه شد.";
   }
-}
+};
 </script>
 
 <style scoped>

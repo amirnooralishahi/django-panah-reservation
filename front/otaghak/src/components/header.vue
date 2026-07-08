@@ -7,45 +7,60 @@
             <div class="p-2 header-action header-login">
               <template v-if="isLoggedIn">
                 <div class="d-flex align-items-center gap-2">
-                  <router-link to="/profile" class="btn btn-sm btn-outline-primary rounded-pill">
+                  <router-link
+                    to="/profile"
+                    class="btn btn-sm btn-outline-primary rounded-pill"
+                  >
                     پروفایل
                   </router-link>
-                  <button type="button" class="btn btn-sm btn-outline-danger rounded-pill" @click="logout">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-danger rounded-pill"
+                    @click="logout"
+                  >
                     خروج
                   </button>
-                  <span class="fw-bold text-success">سلام، {{ displayName }}</span>
+                  <span class="fw-bold text-success"
+                    >سلام، {{ displayName }}</span
+                  >
                 </div>
               </template>
               <template v-else>
-                <router-link to="/login" class="d-flex align-items-center gap-1 header-link">
+                <router-link
+                  to="/login"
+                  class="d-flex align-items-center gap-1 header-link"
+                >
                   <span class="text">ورود/ثبت نام</span>
                   <svg
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                <path
-                  d="M12 15C15.3137 15 18 12.3137 18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9C6 12.3137 8.68629 15 12 15Z"
-                  stroke="#48484E"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M2.90625 20.25C3.82775 18.6536 5.15328 17.3278 6.74958 16.4061C8.34588 15.4844 10.1567 14.9991 12 14.9991C13.8433 14.9991 15.6541 15.4844 17.2504 16.4061C18.8467 17.3278 20.1722 18.6536 21.0938 20.25"
-                  stroke="#48484E"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              </router-link>
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 15C15.3137 15 18 12.3137 18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9C6 12.3137 8.68629 15 12 15Z"
+                      stroke="#48484E"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2.90625 20.25C3.82775 18.6536 5.15328 17.3278 6.74958 16.4061C8.34588 15.4844 10.1567 14.9991 12 14.9991C13.8433 14.9991 15.6541 15.4844 17.2504 16.4061C18.8467 17.3278 20.1722 18.6536 21.0938 20.25"
+                      stroke="#48484E"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </router-link>
               </template>
             </div>
             <div class="p-2 header-action header-support">
-              <router-link to="/support" class="d-flex align-items-center gap-1 header-link">
+              <router-link
+                to="/support"
+                class="d-flex align-items-center gap-1 header-link"
+              >
                 <span class="text">پشتیبانی</span>
                 <svg
                   height="24"
@@ -68,15 +83,25 @@
             </div>
 
             <div class="p-2 header-action header-host">
-              <router-link to="/host" class="d-flex align-items-center gap-1 header-link">
+              <router-link
+                to="/host"
+                class="d-flex align-items-center gap-1 header-link"
+              >
                 <span class="text">میزبان شوید</span>
                 <i class="bi bi-house-add-fill"></i>
               </router-link>
             </div>
           </div>
-          <div class="left w-50 d-flex justify-content-end align-items-center gap-1">
-            <span>سامانه ی پناه</span>
-            <img src="../../New_folder/logo.jpg" alt="" class="logo" />
+          <div
+            class="left w-50 d-flex justify-content-end align-items-center gap-1"
+          >
+            <div class="d-flex align-items-center gap-3">
+              <router-link to="/" class="btn btn-outline-secondary"
+                >بازگشت به صفحه اصلی</router-link
+              >
+              <span>سامانه ی پناه</span>
+              <img src="../../New_folder/logo.jpg" alt="" class="logo" />
+            </div>
           </div>
         </div>
       </div>
@@ -85,36 +110,36 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import { useRouter } from "vue-router";
 
-const router = useRouter()
-const isLoggedIn = ref(false)
-const displayName = ref('')
+const router = useRouter();
+const isLoggedIn = ref(false);
+const displayName = ref("");
 
 function syncAuthState() {
-  const token = localStorage.getItem('access_token')
-  const storedName = localStorage.getItem('user_name')
-  isLoggedIn.value = Boolean(token)
-  displayName.value = storedName || 'کاربر'
+  const token = localStorage.getItem("access_token");
+  const storedName = localStorage.getItem("user_name");
+  isLoggedIn.value = Boolean(token);
+  displayName.value = storedName || "کاربر";
 }
 
 function logout() {
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('profile_slug')
-  localStorage.removeItem('user_name')
-  syncAuthState()
-  router.push('/')
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("profile_slug");
+  localStorage.removeItem("user_name");
+  syncAuthState();
+  router.push("/");
 }
 
 onMounted(() => {
-  syncAuthState()
-  window.addEventListener('auth:changed', syncAuthState)
-})
+  syncAuthState();
+  window.addEventListener("auth:changed", syncAuthState);
+});
 
 onBeforeUnmount(() => {
-  window.removeEventListener('auth:changed', syncAuthState)
-})
+  window.removeEventListener("auth:changed", syncAuthState);
+});
 </script>
 
 <style>

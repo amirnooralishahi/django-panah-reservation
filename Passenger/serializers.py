@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 from .models import User_war_struck, User_home_owner
 
+
 class SerializersUser(serializers.ModelSerializer):
   class Meta:
     model=User_war_struck

@@ -2,13 +2,19 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || ''
 
 async function request(path, options = {}) {
   const token = localStorage.getItem('access_token')
+  const isFormData = options.body instanceof FormData
+  const headers = {
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(options.headers || {}),
+  }
+
+  if (!isFormData) {
+    headers['Content-Type'] = 'application/json'
+  }
+
   const response = await fetch(`${API_BASE}${path}`, {
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(options.headers || {}),
-    },
+    headers,
     ...options,
   })
 
@@ -56,10 +62,29 @@ export async function register(payload) {
   return data
 }
 
-export async function sendHostRequest(payload) {
-  return request('/api/host-request/', {
+
+
+export async function createRoomWithImages(payload) {
+  const formData = new FormData()
+
+  Object.entries(payload).forEach(([key, value]) => {
+    if (value === undefined || value === null) {
+      return
+    }
+
+    if (Array.isArray(value)) {
+      value.forEach(item => {
+        formData.append(key, item)
+      })
+      return
+    }
+
+    formData.append(key, value)
+  })
+
+  return request('/room/upload-images/', {
     method: 'POST',
-    body: JSON.stringify(payload),
+    body: formData,
   })
 }
 
@@ -72,6 +97,13 @@ export async function fetchRoomById(id) {
   return request(`/room/detail/${id}`)
 }
 
+export async function updateRoom(id, payload) {
+  return request(`/room/detail/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  })
+}
+
 export async function fetchUserProfile() {
   return request('/api/my-profile/')
 }
@@ -79,7 +111,7 @@ export async function fetchUserProfile() {
 export async function updateUserProfile(payload) {
   return request('/api/my-profile/', {
     method: 'PUT',
-    body: JSON.stringify(payload),
+    body: payload instanceof FormData ? payload : JSON.stringify(payload),
   })
 }
 
