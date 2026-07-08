@@ -6,7 +6,7 @@ import HostRegister from '../components/HostRegister.vue';
 import Support from '../components/Support.vue';
 import Register from '../components/Register.vue';
 import RoomDetail from '../components/RoomDetail.vue';
-
+import NotFound from "@/components/NotFound.vue";
 const routes=[ 
     {path:'/', component:main},
     {path:'/room', component:main},
@@ -16,7 +16,7 @@ const routes=[
     {path:'/register', component:Register},
     {path:'/host', component:HostRegister},
     {path:'/support', component:Support},
-
+    {path:'/:pathMatch(.*)*', component:NotFound}
 ]
 const router = createRouter({history: createWebHashHistory(), routes})
 

@@ -47,6 +47,7 @@
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { register } from "@/services/api";
+document.title='ثبت نام'
 
 const router = useRouter();
 const form = reactive({

@@ -240,6 +240,8 @@ const roomCapacity = computed(() => room.value?.Accommodation_cap || "نامشخ
 const roomBuildingInfo = computed(
   () => room.value?.building_Information || "ثبت نشده",
 );
+document.title='حزئیات اقامتگاه'
+
 const roomBedService = computed(() => room.value?.Bed_Service || "ثبت نشده");
 const roomToilet = computed(() => room.value?.Toilet_Bathroom || "ثبت نشده");
 const roomReserveDate = computed(() => room.value?.time_reserve || "ثبت نشده");

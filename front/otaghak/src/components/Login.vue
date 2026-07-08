@@ -92,6 +92,7 @@
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { login } from "@/services/api";
+document.title='ورود'
 
 const router = useRouter();
 const route = useRoute();

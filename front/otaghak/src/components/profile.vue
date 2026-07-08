@@ -1,5 +1,8 @@
 <template>
   <Header />
+  <div v-if="loading" class="text-center my-5">
+    <div class="spinner-border"></div>
+  </div>
   <div class="container py-5 mt-3" dir="rtl">
     <div v-if="message" class="alert alert-success alert-dismissible fade show">
       {{ message }}
@@ -101,8 +104,8 @@
                     </div>
                   </div>
 
-                  <button class="btn btn-success mt-4" @click="saveProfile">
-                    ذخیره تغییرات
+                  <button class="btn btn-success mt-4":disabled="loading" @click="saveProfile">
+                    {{ loading ? "درحال ذخیره" : "ذخیره" }}
                   </button>
                   
                 </div>
@@ -151,13 +154,12 @@
 
               <p>قیمت: {{ room.price }}</p>
 
-              <button class="btn btn-warning me-2" @click="startEditRoom(room)">
-                ویرایش
-              </button>
+              <button class="btn btn-warning me-2" :disabled="loading" @click="startEditRoom(room)">
+                {{loading ? "در حال ویرایش ...": "ویرایش"}}
+                            </button>
 
-              <button class="btn btn-danger" @click="removeRoom(room.id)">
-                حذف
-              </button>
+              <button class="btn btn-danger" :disabled="loading" @click="removeRoom(room.id)">
+                {{ loading? "در حال حذف ..." :"حذف"}}              </button>
             </template>
 
             <template v-else>
@@ -193,12 +195,12 @@
                 />
               </div>
 
-              <button class="btn btn-success me-2" @click="saveRoom(room.id)">
-                ذخیره
+              <button class="btn btn-success me-2" :disabled="loading" @click="saveRoom(room.id)">
+              {{ loading? "در حال ذخیره کردن" : "ذخیره" }}
               </button>
 
-              <button class="btn btn-secondary" @click="cancelEditRoom">
-                انصراف
+              <button class="btn btn-secondary" :disabled="loading" @click="cancelEditRoom">
+              {{ loading ? " در حال انصراف  داد " : "انصراف" }}
               </button>
             </template>
           </div>
@@ -254,9 +256,13 @@ import {
 } from "@/services/api";
 const myRooms = ref([]);
 const myReservations = ref([]);
+document.title='پروفایل'
+
 const isHost = computed(
   () => localStorage.getItem("user_role") === "home_owner",
 );
+const saving =ref(false)
+const loading = ref(true)
 const message = ref("");
 const error = ref("");
 const profile = ref({
@@ -274,6 +280,7 @@ const roomEdits = ref({});
 
 
 async function loadProfile() {
+  loading.value = true
   message.value = "";
   error.value = "";
 
@@ -302,9 +309,12 @@ async function loadProfile() {
   } catch (err) {
     error.value = err.message || "بارگذاری اطلاعات پروفایل با خطا مواجه شد.";
   }
+  loading.value=false
 }
 
 async function saveProfile() {
+  loading.value = true
+  saving.value=true
   message.value = "";
   error.value = "";
   try {
@@ -324,9 +334,12 @@ async function saveProfile() {
   } catch (err) {
     error.value = err.message || "ذخیره‌سازی با خطا مواجه شد.";
   }
+  saving.value=false
+  loading.value= false
 }
 
 function startEditRoom(room) {
+  loading.value=true
 try{
   editingRoomId.value = room.id;
 
@@ -358,15 +371,18 @@ try{
 }catch{ 
   error.value="انجام نشد"
 }
-  
+  loading.value = false
 }
 
 function cancelEditRoom() {
+  loading=true
   editingRoomId.value = null;
   roomEdits.value = {};
+  loading = false
 }
 
 async function saveRoom(id) {
+  loading.value=true
   try {
     const updated = await updateRoom(id, roomEdits.value);
 
@@ -391,6 +407,7 @@ async function saveRoom(id) {
     error.value = "ویرایش انجام نشد";
     message.value = "";
   }
+  loading.value=false
 }
 
 onMounted(async () => {

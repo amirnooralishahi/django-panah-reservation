@@ -1,5 +1,8 @@
 <template>
   <Header />
+  <div v-if="loading" class="text-center my-5">
+    <div class="spinner-border"></div>
+  </div>
   <div class="search mb-5">
     <div
       class="search-contain w-100 gap-5 d-flex justify-content-center align-items-center"
@@ -219,70 +222,6 @@
       </div>
     </div>
   </div>
-  <!-- <div class="tag mt-4">
-        <div class="tag-container d-flex flex-column align-items-center gap-2">
-            <div class="row  gap-1 justify-content-end">
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا استخردار فیروزکوه </div>
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا استخردار شهریار</div>
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا استخردار در کردان</div>
-
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا برای مهمانی در لواسان</div>
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا شهریار برای تولد</div>
-
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا در کردان برای مهمانی</div>
-
-            </div>
-            <div class="row  gap-1 justify-content-end">
-                <div class="col-auto border rounded-4 text-center">اجاره ویلا استخردار در کرج  </div>
-                <div class="col-auto border rounded-4 text-center">اجاره ویلا استخردار در رودهن</div>
-                <div class="col-auto border rounded-4 text-center">اجاره ویلا اتخردار در هشتگرد</div>
-
-                <div class="col-auto border rounded-4 text-center">اجاره ویلا استخردار در طالقان</div>
-                <div class="col-auto border rounded-4 text-center">اجاره ویلا استخردار در لواسان</div>
-
-                <div class="col-auto border rounded-4 text-center">اجاره ویلا در فشم استخردار </div>
-
-            </div>
-          
-            <div class="row  gap-1 justify-content-end">
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا استخردار در فومن  </div>
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا استخردار رشت</div>
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا استخردار چالوس</div>
-
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا استخردار رامسر</div>
-                <div class="col-auto border rounded-4  d-flex align-items-center justify-content-center">اجاره ویلا استخردار نوشهر </div>
-
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا استخردار در دماوند</div>
-          
-            </div>
-            <div class="row  gap-1 justify-content-end">
-                <div class="col-auto border rounded-4  text-center">اجاره کلبه جنگلی در رشت </div>
-                <div class="col-auto border rounded-4  text-center">اجاره کلبه چوبی فیروزکوه</div>
-
-                <div class="col-auto border rounded-4  text-center">اجاره کلبه چوبی در لواسان</div>
-                <div class="col-auto border rounded-4  text-center">اجاره کلبه چوبی در شهریار </div>
-
-                <div class="col-auto border rounded-4  text-center">اجاره کلبه چوبی در کردان</div>
-
-                <div class="col-auto border rounded-4  text-center">اجاره ویلا استخردار در متل قو</div>
-
-            </div>
-           
-            <div class="row gap-1  justify-content-end">
-                <div class="col-auto border rounded-4 text-center">اجاره کلبه جنگلی در متل قو  </div>
-                <div class="col-auto border rounded-4 text-center">اجاره کلبه جنگلی در فومن </div>
-
-                <div class="col-auto border rounded-4 text-center">کلبه جنگلی نور </div>
-                <div class="col-auto border rounded-4 text-center">اجاره کلبه جنگلی سوادکوه</div>
-
-                <div class="col-auto border rounded-4 text-center">اجاره کلبه جنگلی شیرگاه</div>
-
-                <div class="col-auto border rounded-4 text-center">اجاره کلبه ماسال</div>
-
-            </div>
-           
-        </div>
-    </div> -->
   <Footer />
 </template>
 
@@ -314,6 +253,7 @@ const roomsError = ref("");
 const searchQuery = ref("");
 const route = useRoute();
 const router = useRouter();
+document.title='رزرو اقامتگاه'
 const previewImages = [
   roomImage1,
   roomImage2,
