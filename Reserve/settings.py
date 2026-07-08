@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     "phonenumber_field",
     'Passenger',
     'Room',
-    'Payment.apps.ReservationConfig'
-]
+    'Payment'
+   ]
 PHONENUMBER_DEFAULT_REGION = 'IR' # Your Prefered Country
 
 MIDDLEWARE = [

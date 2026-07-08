@@ -28,12 +28,12 @@ class Payment( models.Model):
        return f'{self.tuition}-{self.debt}-{self.pk}'
 
 class RecordReserve(models.Model):
-   passenger = models.ForeignKey(User_war_struck,on_delete=models.CASCADE)
-   room=models.ForeignKey(Rooms,on_delete=models.CASCADE)
-   payment= models.OneToOneField(Payment,on_delete=models.CASCADE)
-   date = models.DateField(auto_now_add=True)
+    passenger = models.ForeignKey(User_war_struck,on_delete=models.CASCADE)
+    room=models.ForeignKey(Rooms,on_delete=models.CASCADE)
+    payment= models.OneToOneField(Payment,on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
 
-   def __str__(self):
-       return f'{self.passenger}-{self.date}'
+    def __str__(self):
+        return f'{self.passenger}-{self.date}'
 
 

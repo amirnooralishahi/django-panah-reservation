@@ -33,6 +33,7 @@ class ListPayment ( APIView):
     return Response (ser.data)
 
   def post(self, request):
+    print(request.data)
     room_id = request.data.get('room_id')
     amount = request.data.get('amount')
     passenger_slug = request.data.get('passenger_slug')
@@ -43,11 +44,13 @@ class ListPayment ( APIView):
       return Response({'error': 'room_id and amount are required'}, status=status.HTTP_400_BAD_REQUEST)
 
     room = get_object_or_404(Rooms, id=room_id)
-
+    print(room)
     if passenger_slug:
       passenger = get_object_or_404(User_war_struck, slug=passenger_slug)
+      print(passenger)
     elif request.user.is_authenticated:
       passenger = get_object_or_404(User_war_struck, user=request.user)
+      print(passenger)
     else:
       return Response({'error': 'passenger information is required'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -62,17 +65,16 @@ class ListPayment ( APIView):
     reservation_obj, _ = reservation.objects.get_or_create(
         passenger=passenger,
         room=room,
-        defaults={
-            'DeliveryDate': delivery_datetime,
-            'ReservDate': reservation_date,
-        },
+        ReservDate=reservation_date,
+        DeliveryDate= delivery_date
+        
     )
+    print(reservation_obj)
+    print(reservation_obj.id)
+    print("reservation id =", reservation_obj.id)
+    print("reservation slug =", reservation_obj.slug)
+    
     days = (delivery_datetime - reservation_date).days
-    print(request.data)
-    print(room.price)
-    print(amount)
-    print(reserve_date)
-    print(delivery_date)
     if days <= 0:
         return Response(
             {"error": "تاریخ خروج باید بعد از تاریخ ورود باشد."},
@@ -96,6 +98,9 @@ class ListPayment ( APIView):
     payment.allpaid = total_price
     payment.tuition = amount
     payment.save()
+    
+    print('payment id',payment.id)
+    print('created=', created)
     print("room.price =", room.price)
     print("payment.allpaid =", payment.allpaid)
     print("amount =", amount)

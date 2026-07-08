@@ -337,8 +337,6 @@ console.log(
     const payload = {
       room_id: room.value.id,
       amount: amount.value,
-      passenger_slug: localStorage.getItem("profile_slug") || "",
-
       reserve_date: reserveDate.value,
       delivery_date: deliveryDate.value,
     };
