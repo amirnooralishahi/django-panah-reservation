@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
+from django.db import transaction
 
 class LogoutView(APIView):
     renderer_classes = [JSONRenderer]
@@ -21,8 +21,9 @@ class LogoutView(APIView):
 class RegisterView(APIView):
     renderer_classes = [JSONRenderer]
     permission_classes = [AllowAny]
-
+    @transaction.atomic
     def post(self, request):
+        print('REGISTER CALLED')
         username = request.data.get("username")
         email = request.data.get("email")
         password = request.data.get("password")
@@ -33,32 +34,49 @@ class RegisterView(APIView):
             return Response({"error": "username, email, password and national_code are required"}, status=400)
 
         if User.objects.filter(username=username).exists():
-            return Response({"error": "username already exists"}, status=400)
+            return Response(
+                {"error": "username already exists"},
+                status=400
+            )
 
+        # --------------------------
+        # اول User ساخته می‌شود
+        # --------------------------
+        
+        print('Creating User ....')
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            user_type=user_type,
+        )
+        print("user created ")
+        print("USER =", user)
+        print("TYPE =", user_type)
+        print("CHECK =", User_home_owner.objects.filter(user=user).exists())
+        
+        # --------------------------
+        # بعد Profile ساخته می‌شود
+        # --------------------------
+        
+        
+        print('enter home owner if ')
         if user_type == "home_owner":
-
-            profile = User_home_owner.objects.create(
-                user=username,
-                email=email,
-                NationalCode=national_code,
-            )
-
+            profile = User_home_owner.objects.get(user=user)
         else:
-
-            profile = User_war_struck.objects.create(
-                user=username,
-                email=email,
-                NationalCode=national_code,
-            )
-
-        refresh = RefreshToken.for_user(username)
+            if User_war_struck.objects.filter(user=user).exists():
+                    profile = User_war_struck.objects.get(user=user)
+        profile.email=email
+        profile.NationalCode =national_code
+        profile.save()
+        refresh = RefreshToken.for_user(user)
         response = Response({
             "message": "registered successfully",
             "user": {
-                "id": username.id,
-                "username": username.username,
-                "email": username.email,
-                "user_type": username.user_type,
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "user_type": user.user_type,
             },
             "profile": {
                 "id": profile.id,
@@ -87,11 +105,8 @@ class CustomLoginView(APIView):
     def post(self, request):
       identifier = request.data.get("username") or request.data.get("identifier") or request.data.get("email") or request.data.get("phone")
       password = request.data.get("password")
-
-      user = authenticate(
-    username=user_obj.username,
-    password=password
-)
+      user_obj= None 
+ 
       # try email
       print("identifier =", identifier)
       print("password =", password)

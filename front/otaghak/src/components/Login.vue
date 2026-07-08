@@ -1,9 +1,16 @@
 <template>
-  <div class="login-page d-flex flex-column align-items-center justify-content-center py-5">
+  <div
+    class="login-page d-flex flex-column align-items-center justify-content-center py-5"
+  >
     <div class="login-card rounded-4 shadow-sm p-4 w-100">
-      <div class="header-section d-flex flex-column align-items-center text-center mb-4">
+      <div
+        class="header-section d-flex flex-column align-items-center text-center mb-4"
+      >
         <h1>ورود به سامانه پناه</h1>
-        <p class="mb-0">برای متقاضیان خانه و میزبانان گرامی، وارد شوید تا دسترسی سریع به خدمات فراهم شود.</p>
+        <p class="mb-0">
+          برای متقاضیان خانه و میزبانان گرامی، وارد شوید تا دسترسی سریع به خدمات
+          فراهم شود.
+        </p>
       </div>
 
       <div class="role-select d-flex flex-column flex-md-row gap-3 mb-4">
@@ -22,27 +29,46 @@
       </div>
 
       <div class="info-box mb-4">
-        <p class="mb-1"><strong>نکته:</strong> لطفاً نقش خود را انتخاب کنید تا فرم مناسب نمایش داده شود.</p>
-        <p class="mb-0">اگر هنوز عضو نشده‌اید، پس از انتخاب نقش می‌توانید از طریق گزینه ثبت نام وارد شوید.</p>
+        <p class="mb-1">
+          <strong>نکته:</strong> لطفاً نقش خود را انتخاب کنید تا فرم مناسب نمایش
+          داده شود.
+        </p>
+        <p class="mb-0">
+          اگر هنوز عضو نشده‌اید، پس از انتخاب نقش می‌توانید از طریق گزینه ثبت
+          نام وارد شوید.
+        </p>
       </div>
 
       <div class="form-section d-flex flex-column gap-3">
         <div class="form-row d-flex flex-column gap-3">
           <label class="form-label">ایمیل یا شماره همراه</label>
-          <input type="text" placeholder="مثلاً example@mail.com یا 0912xxxxxxx" v-model="username" />
+          <input
+            type="text"
+            placeholder="مثلاً example@mail.com یا 0912xxxxxxx"
+            v-model="username"
+          />
         </div>
 
         <div class="form-row d-flex flex-column gap-3">
           <label class="form-label">رمز عبور</label>
-          <input type="password" placeholder="رمز عبور خود را وارد کنید" v-model="password" />
+          <input
+            type="password"
+            placeholder="رمز عبور خود را وارد کنید"
+            v-model="password"
+          />
         </div>
 
         <div class="additional-info text-end">
-          <span class="role-text">نقش انتخاب‌شده: {{ selectedRole === 'guest' ? 'متقاضی خانه' : 'میزبان خانه‌دار' }}</span>
+          <span class="role-text"
+            >نقش انتخاب‌شده:
+            {{
+              selectedRole === "guest" ? "متقاضی خانه" : "میزبان خانه‌دار"
+            }}</span
+          >
         </div>
 
         <button class="submit-button" @click="submitLogin">
-          ورود به عنوان {{ selectedRole === 'guest' ? 'متقاضی' : 'میزبان' }}
+          ورود به عنوان {{ selectedRole === "guest" ? "متقاضی" : "میزبان" }}
         </button>
 
         <div v-if="successMessage" class="alert alert-success mt-3">
@@ -53,7 +79,9 @@
         </div>
 
         <div class="register-note text-center text-muted">
-          هنوز حساب کاربری ندارید؟ <router-link to="/register">ثبت نام کنید</router-link> و به جمع همراهان پناه بپیوندید.
+          هنوز حساب کاربری ندارید؟
+          <router-link to="/register">ثبت نام کنید</router-link> و به جمع
+          همراهان پناه بپیوندید.
         </div>
       </div>
     </div>
@@ -61,48 +89,54 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { login } from '@/services/api'
+import { onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { login } from "@/services/api";
 
-const router = useRouter()
-const route = useRoute()
-const selectedRole = ref('guest')
-const username = ref('')
-const password = ref('')
-const errorMessage = ref('')
-const successMessage = ref('')
+const router = useRouter();
+const route = useRoute();
+const selectedRole = ref("guest");
+const username = ref("");
+const password = ref("");
+const errorMessage = ref("");
+const successMessage = ref("");
 
 onMounted(() => {
-  if (route.query.role === 'host') {
-    selectedRole.value = 'host'
+  if (route.query.role === "host") {
+    selectedRole.value = "host";
   }
-})
+});
 
 const selectRole = (role) => {
-  selectedRole.value = role
-}
+  selectedRole.value = role;
+};
 
 const submitLogin = async () => {
-  errorMessage.value = ''
-  successMessage.value = ''
+  errorMessage.value = "";
+  successMessage.value = "";
 
   if (!username.value || !password.value) {
-    errorMessage.value = 'لطفاً نام کاربری و رمز عبور را وارد کنید.'
-    return
+    errorMessage.value = "لطفاً نام کاربری و رمز عبور را وارد کنید.";
+    return;
   }
 
   try {
-    await login(username.value, password.value)
-    localStorage.setItem('user_role', selectedRole.value === 'host' ? 'host' : 'guest')
-    window.dispatchEvent(new Event('auth:changed'))
-    successMessage.value = 'ورود با موفقیت انجام شد. اکنون می‌توانید به بخش‌های دیگر بروید.'
-    // Redirect all users to the main page after login (hosts should land on the main page)
-    router.push('/')
+    await login(username.value, password.value);
+    
+    window.dispatchEvent(new Event("auth:changed"));
+    successMessage.value =
+      "ورود با موفقیت انجام شد. .";
+    const role = localStorage.getItem("user_role");
+
+    if (role === "home_owner") {
+      router.push("/");
+    } else {
+      router.push("/");
+    }
   } catch (error) {
-    errorMessage.value = error.message || 'خطا در ورود. مجدداً تلاش کنید.'
+    errorMessage.value = error.message || "خطا در ورود. مجدداً تلاش کنید.";
   }
-}
+};
 </script>
 
 <style scoped>

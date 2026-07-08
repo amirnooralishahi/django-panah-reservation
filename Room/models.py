@@ -6,6 +6,13 @@ from uuid import uuid4
 
 # Create your models here.
 class Rooms(models.Model):
+  owner = models.ForeignKey(
+    User_home_owner,
+    on_delete=models.CASCADE,
+    related_name="rooms",
+    null=True,
+    blank=True,
+)
   location = models.CharField(max_length=200)
   city= models.CharField(max_length=100)
   Dormitory = models.CharField(max_length=200,unique=True,default=None)

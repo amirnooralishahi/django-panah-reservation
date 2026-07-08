@@ -3,7 +3,7 @@
     <div class="down">
       <div class="header d-flex justify-content-center">
         <div class="header-contain d-flex">
-          <div class="right w-50 d-flex align-items-center jgap-3">
+          <div class="right w-50 d-flex align-items-center gap-3">
             <div class="p-2 header-action header-login">
               <template v-if="isLoggedIn">
                 <div class="d-flex align-items-center gap-2">
@@ -22,6 +22,16 @@
                   </button>
                   <span class="fw-bold text-success"
                     >سلام، {{ displayName }}</span
+                  >
+                  <span
+                    class="badge bg-success"
+                    v-if="userRole ==='home_owner'"
+                    >میزبان</span
+                  >
+                  <span
+                    class="badge bg-primary"
+                    v-else-if="userRole ==='war_struck'"
+                    >متقاضی</span
                   >
                 </div>
               </template>
@@ -116,18 +126,22 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const isLoggedIn = ref(false);
 const displayName = ref("");
-
+const userRole = ref("");
 function syncAuthState() {
   const token = localStorage.getItem("access_token");
   const storedName = localStorage.getItem("user_name");
   isLoggedIn.value = Boolean(token);
   displayName.value = storedName || "کاربر";
+  userRole.value=localStorage.getItem('user_role')||"";
+  console.log(userRole.value);
+  
 }
 
 function logout() {
   localStorage.removeItem("access_token");
   localStorage.removeItem("profile_slug");
   localStorage.removeItem("user_name");
+  localStorage.removeItem('user_role')
   syncAuthState();
   router.push("/");
 }
@@ -135,6 +149,7 @@ function logout() {
 onMounted(() => {
   syncAuthState();
   window.addEventListener("auth:changed", syncAuthState);
+  
 });
 
 onBeforeUnmount(() => {

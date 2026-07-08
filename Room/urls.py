@@ -11,4 +11,5 @@ urlpatterns = [
     "<int:room_id>/reservations/",
     views.RoomReservationList.as_view(),
 ),
+  path('my-rooms/',views.MyRoomsView.as_view())
 ]

@@ -24,7 +24,7 @@
         <div class="form-row">
           <label class="form-label">عنوان اقامتگاه (اختیاری)</label>
           <input
-            v-model="propertyTitle"
+            v-model="form.Dormitory"
             type="text"
             placeholder="مثلاً ویلا در شمال"
           />
@@ -36,6 +36,10 @@
         </div>
         <div class="form-row">
           <label class="form-label"> سرویس بهداشتی </label>
+          <input v-model="form.Toilet_Bathroom" />
+        </div>
+        <div class="form-row">
+          <label class="form-label">سرویس خواب </label>
           <input v-model="form.Bed_Service" />
         </div>
         <div class="form-row">
@@ -115,7 +119,7 @@
 // const resetForm = () => {
 //   name.value = "";
 //   contact.value = "";
-//   propertyTitle.value = "";
+// propertyTitle.value = "";
 //   description.value = "";
 //   picture.value = null;
 //   pictureName.value = "";
@@ -183,7 +187,13 @@ const form = reactive({
 });
 
 const images = ref([]);
+const pictureName = ref("");
 
+const onFileSelected = (event) => {
+  images.value = Array.from(event.target.files);
+
+  pictureName.value = images.value.map((img) => img.name).join(" , ");
+};
 const successMessage = ref("");
 const errorMessage = ref("");
 const submitRoom = async () => {

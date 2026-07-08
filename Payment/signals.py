@@ -21,7 +21,6 @@ def create_record_reserve(sender, instance, created, **kwargs):
             payment=instance,
             defaults={
                 'passenger': instance.passenger,
-                'owner_room': instance.reservation.room.owner,
                 'room': instance.reservation.room,
             },
         )

@@ -14,7 +14,8 @@ class ReserveSer(serializers.ModelSerializer):
 class RoomImageSer(serializers.ModelSerializer): 
     class Meta:
       model=RoomImage
-      read_only_fields= ['room','upload_at']
+      fields="__all__"
+      read_only_fields= ['room','uploaded_at']
       
 class RoomSer(serializers.ModelSerializer) :
   images = RoomImageSer(many=True, read_only=True)
@@ -35,6 +36,7 @@ class RoomCreateWithImagesSerializer(serializers.ModelSerializer):
         model = Rooms
         fields = [
     "id",
+    'owner',
     "location",
     "city",
     "Dormitory",
@@ -76,3 +78,9 @@ class ReservationDateSerializer(serializers.ModelSerializer):
 
     def get_end(self, obj):
         return obj.DeliveryDate.date()
+    
+class MyRoomSer(serializers.ModelSerializer): 
+    images = RoomImageSer(many=True,read_only=True)
+    class Meta : 
+        model = Rooms 
+        fields='__all__'

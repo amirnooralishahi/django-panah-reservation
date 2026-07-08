@@ -11,7 +11,7 @@ const routes=[
     {path:'/', component:main},
     {path:'/room', component:main},
     {path:'/room/:id', component:RoomDetail, props:true, name:'room-detail'},
-    {path:'/profile',component:profile}, 
+    {path:'/profile/',component:profile,name:'profile'}, 
     {path:'/login', component:Login},
     {path:'/register', component:Register},
     {path:'/host', component:HostRegister},

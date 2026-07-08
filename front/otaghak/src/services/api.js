@@ -36,8 +36,15 @@ function persistAuthData(data) {
   }
   if (data?.user?.username) {
     localStorage.setItem('user_name', data.user.username)
+    console.log(data.user);
+    console.log(data.user.user_type);
+
+    
   }
-  const role = data?.user?.user_type || data?.user?.role || localStorage.getItem('user_role') || 'guest'
+  const role = data?.user?.user_type
+   || data?.user?.role || 
+   localStorage.getItem('user_role') || 'guest'
+  console.log("role=",role)
   localStorage.setItem('user_role', role)
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new Event('auth:changed'))
@@ -49,6 +56,8 @@ export async function login(username, password) {
     method: 'POST',
     body: JSON.stringify({ username, password }),
   })
+  console.log('login response',data);
+  
   persistAuthData(data)
   return data
 }
@@ -81,7 +90,10 @@ export async function createRoomWithImages(payload) {
 
     formData.append(key, value)
   })
-
+  console.log(formData);
+  for (const pair of formData.entries()) {
+    console.log(pair[0], pair[1]);
+  }
   return request('/room/upload-images/', {
     method: 'POST',
     body: formData,
@@ -123,5 +135,13 @@ export async function payForRoom(payload) {
 }
 
 export async function fetchReservations(roomId) {
-    return request(`/room/${roomId}/reservations/`)
+  return request(`/room/${roomId}/reservations/`)
+}
+export async function fetchMyRooms() {
+  return request("/room/my-rooms/");
+}
+export async function deleteRoom(id) {
+  return request(`/room/detail/${id}`, {
+    method: "DELETE",
+  });
 }

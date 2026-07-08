@@ -8,7 +8,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from .models import Rooms,reservation,RoomImage,User_home_owner
-from .serializers import RoomSer,RoomCreateWithImagesSerializer,ReserveSer,RoomImageSer,ReservationDateSerializer
+from .serializers import RoomSer,RoomCreateWithImagesSerializer,ReserveSer,RoomImageSer,ReservationDateSerializer,MyRoomSer
 from .permission import IsInspectorMember
  # Create your views here.
 
@@ -39,15 +39,15 @@ class RoomCreateWithImagesView(APIView):
 
         if serializer.is_valid():
 
-            # owner = User_home_owner.objects.get(user=request.user)
+            owner = User_home_owner.objects.get(user=request.user)
 
-            room = serializer.save()
+            room = serializer.save(owner=owner)
 
             return Response(
                 RoomSer(room).data,
                 status=status.HTTP_201_CREATED
             )
-        print(serializer.errors)
+
         return Response(
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
@@ -196,6 +196,25 @@ class RoomReservationList(APIView):
 
         serializer = ReservationDateSerializer(
             reservations,
+            many=True
+        )
+
+        return Response(serializer.data)
+
+class MyRoomsView(APIView):
+
+    renderer_classes = [JSONRenderer]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        profile = User_home_owner.objects.get(user=request.user)
+
+        rooms = Rooms.objects.filter(owner=profile)
+
+        serializer = MyRoomSer(
+            rooms,
             many=True
         )
 
