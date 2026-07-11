@@ -1,4 +1,3 @@
-#در قسمت لاگین یه قسمت برای سیگنال گذاشته شده که وقتی یوزر ساخته شد پروفایلش هم ساخته بشه و اگه یوزر وار استراک بود پروفایل وار استراک ساخته بشه و اگه یوزر هوم اونر بود پروفایل هوم اونر ساخته بشه
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings

@@ -101,69 +101,7 @@
 </template>
 
 <script setup>
-// import {reactive, ref } from "vue";
-// import { useRouter } from "vue-router";
-// import { createRoomWithImages } from "@/services/api.js";
-// import Header from "./header.vue";
-// const router = useRouter();
 
-// const name = ref("");
-// const contact = ref("");
-// const propertyTitle = ref("");
-// const description = ref("");
-// const picture = ref(null);
-// const pictureName = ref("");
-// const errorMessage = ref("");
-// const successMessage = ref("");
-
-// const resetForm = () => {
-//   name.value = "";
-//   contact.value = "";
-// propertyTitle.value = "";
-//   description.value = "";
-//   picture.value = null;
-//   pictureName.value = "";
-//   errorMessage.value = "";
-//   successMessage.value = "";
-// };
-
-// const onFileSelected = (event) => {
-//   const file = event.target.files?.[0];
-//   if (file) {
-//     picture.value = file;
-//     pictureName.value = file.name;
-//   } else {
-//     picture.value = null;
-//     pictureName.value = "";
-//   }
-// };
-
-// const submitHost = async () => {
-//   errorMessage.value = "";
-//   successMessage.value = "";
-
-//   if (!name.value || !contact.value) {
-//     errorMessage.value = "لطفاً نام و شماره تماس/ایمیل را وارد کنید.";
-//     return;
-//   }
-
-//   try {
-//     const payload = new FormData();
-//     payload.append("name", name.value);
-//     payload.append("contact", contact.value);
-//     payload.append("propertyTitle", propertyTitle.value);
-//     payload.append("description", description.value);
-//     if (picture.value) {
-//       payload.append("picture", picture.value);
-//     }
-
-//     successMessage.value = "درخواست میزبان با موفقیت به سرور ارسال شد.";
-//     resetForm();
-//   } catch (error) {
-//     errorMessage.value =
-//       error.message || "خطا در ارسال درخواست. دوباره تلاش کنید.";
-//   }
-// };
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { createRoomWithImages } from "@/services/api";

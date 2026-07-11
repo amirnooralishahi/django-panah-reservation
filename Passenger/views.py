@@ -39,9 +39,6 @@ class RegisterView(APIView):
                 status=400
             )
 
-        # --------------------------
-        # اول User ساخته می‌شود
-        # --------------------------
         
         print('Creating User ....')
         user = User.objects.create_user(
@@ -55,9 +52,6 @@ class RegisterView(APIView):
         print("TYPE =", user_type)
         print("CHECK =", User_home_owner.objects.filter(user=user).exists())
         
-        # --------------------------
-        # بعد Profile ساخته می‌شود
-        # --------------------------
         
         
         print('enter home owner if ')
@@ -107,7 +101,6 @@ class CustomLoginView(APIView):
       password = request.data.get("password")
       user_obj= None 
  
-      # try email
       print("identifier =", identifier)
       print("password =", password)
       print("user_obj =", user_obj)
@@ -115,7 +108,6 @@ class CustomLoginView(APIView):
       if identifier and "@" in identifier:
         user_obj = User.objects.filter(email__iexact=identifier).first()
 
-      # try phone in profiles
       if not user_obj and identifier:
         profile = User_war_struck.objects.filter(phone=identifier).first()
         if not profile:
@@ -123,7 +115,6 @@ class CustomLoginView(APIView):
         if profile:
           user_obj = profile.user
 
-      # try username
       if not user_obj and identifier:
         user_obj = User.objects.filter(username=identifier).first()
 
@@ -168,7 +159,6 @@ class CustomLoginView(APIView):
       else:
         return Response({"error": "Invalid credentials"}, status=401)
 
-#برای دیدن تمامی کاربران فقط به مالک و بازرس باید سطح دسترسی بدهم 
 class PassengerList (APIView):
   renderer_classes = [JSONRenderer]
   authentication_classes=[JWTAuthentication]
@@ -192,7 +182,6 @@ class PassengerList (APIView):
       return Response(ser.data, status=status.HTTP_201_CREATED)
     return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#در این قسمت باید اول لاگین کرده باشند و بعد اجازه دیدن داشته باشند 
 class PassengerDetail(APIView):
   renderer_classes = [JSONRenderer]
   authentication_classes=[JWTAuthentication]

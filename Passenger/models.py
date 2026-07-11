@@ -2,7 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.text import slugify
-#jangzade va scan movaqat 
 
 class User(AbstractUser):
     USER_TYPE_CHOICES = [

@@ -26,7 +26,6 @@ class SerializersUser(serializers.ModelSerializer):
     return data
 
 class UserProfileSerializer(serializers.ModelSerializer):
-  # accept flexible phone input to avoid strict validation errors from form inputs
   phone = serializers.CharField(required=False, allow_blank=True)
   class Meta:
     model = User_war_struck

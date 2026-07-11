@@ -12,7 +12,6 @@ from .serializers import RoomSer,RoomCreateWithImagesSerializer,ReserveSer,RoomI
 from .permission import IsInspectorMember
  # Create your views here.
 
-#for this class url pattern is created
 
 class RoomCreateWithImagesView(APIView):
     parser_classes = [MultiPartParser, FormParser]
@@ -91,8 +90,6 @@ class RoomDetail(APIView):
     instance.delete()
     return Response({'message': 'room deleted successfully'}, status=status.HTTP_200_OK)
     
-#for this class url pattern is created
-    
 class reserveRoom(APIView):
   renderer_classes = [JSONRenderer]
   authentication_classes=[JWTAuthentication]
@@ -112,8 +109,6 @@ class reserveRoom(APIView):
     return Response({'message':'error'} , status=status.HTTP_400_BAD_REQUEST)
   
   
-#for this class url pattern is created
-
 class detailReserveRoom(APIView): 
     renderer_classes = [JSONRenderer]
     authentication_classes=[JWTAuthentication]
@@ -147,7 +142,6 @@ class detailReserveRoom(APIView):
       return Response({'detail':'رزرو حذف شد'},status=status.HTTP_202_ACCEPTED)
     
 
-#for this class url pattern is created
     
 class uploadImage(APIView): 
   renderer_classes = [JSONRenderer]

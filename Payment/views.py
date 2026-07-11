@@ -15,11 +15,9 @@ from .serializers import PaymentSer,RecordSer
 from Passenger.models import  User_war_struck
 from Room.models import reservation, Rooms
 
-# Create your views here.
 
 
 
-#for this class url pattern is created
 class ListPayment ( APIView):
   renderer_classes = [JSONRenderer]
   authentication_classes = [JWTAuthentication]
@@ -126,7 +124,6 @@ class ListPayment ( APIView):
 
 
 
-#for this class url pattern is created
 
 class DetailPayment(APIView):
   renderer_classes = [JSONRenderer]
@@ -159,7 +156,6 @@ class DetailPayment(APIView):
     instance.delete()
     return Response({'message ':'delete successfully '})
 
-#for this class url pattern is created
 
 class ListRecord(APIView):
   renderer_classes = [JSONRenderer]
@@ -180,7 +176,6 @@ class ListRecord(APIView):
     return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-#for this class url pattern is created
 class DetailRecord(APIView):
   renderer_classes = [JSONRenderer]
   authentication_classes=[JWTAuthentication]

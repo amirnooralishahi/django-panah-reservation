@@ -9,7 +9,6 @@ class IsInspectorMember(BasePermission):
         if not user or not user.is_authenticated:
             return False
 
-        # بررسی وضعیت owner یا inspector بودن
         try:
             passenger = User_war_struck.objects.get(user=user)
             return passenger.Is_inspector or passenger.Is_owner
