@@ -21,7 +21,7 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.generic import TemplateView
 urlpatterns = [
 path(
         "openapi/",get_schema_view(
@@ -35,7 +35,7 @@ path(
     path('api-auth/', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-
+    path("",TemplateView.as_view(template_name="index.html"))
 ]
 
 
