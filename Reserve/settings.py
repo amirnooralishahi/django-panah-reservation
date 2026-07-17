@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-0_nub(xzp#i*2t!t_zrhj+7*lz$#i-)qt*)=)63%o*vzl$3o^&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [    "amirhosseinnoori.pythonanywhere.com",
+                 "www.amirhosseinnoori.pythonanywhere.com",
+"localhost", "127.0.0.1"]
 
 AUTH_USER_MODEL = 'Passenger.User'
 # Application definition
