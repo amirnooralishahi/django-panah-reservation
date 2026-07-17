@@ -91,7 +91,7 @@ ROOT_URLCONF = 'Reserve.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [ BASE_DIR / "front" / "otaghak" / "dist",],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
