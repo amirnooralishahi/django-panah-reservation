@@ -1,4 +1,4 @@
-import { createRouter,createWebHashHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import main from '../components/main.vue'
 import profile from "@/components/profile.vue";
 import Login from '../components/Login.vue';
@@ -7,18 +7,30 @@ import Support from '../components/Support.vue';
 import Register from '../components/Register.vue';
 import RoomDetail from '../components/RoomDetail.vue';
 import NotFound from "@/components/NotFound.vue";
-const routes=[ 
-    {path:'/', component:main},
-    {path:'/room', component:main},
-    {path:'/room/:id', component:RoomDetail, props:true, name:'room-detail'},
-    {path:'/profile/',component:profile,name:'profile'}, 
-    {path:'/login', component:Login},
-    {path:'/register', component:Register},
-    {path:'/host', component:HostRegister},
-    {path:'/support', component:Support},
-    {path:'/:pathMatch(.*)*', component:NotFound}
+const routes = [
+    { path: '/', component: main },
+    { path: '/room', component: main },
+    { path: '/room/:id', component: RoomDetail, props: true, name: 'room-detail' },
+    { path: '/profile/', component: profile, name: 'profile' },
+    { path: '/login', component: Login },
+    { path: '/register', component: Register },
+    { path: '/host', component: HostRegister },
+    { path: '/support', component: Support },
+    { path: '/:pathMatch(.*)*', component: NotFound },
+    {
+        path: '/reservation-rules',
+        component: ReservationRules
+    },
+    {
+        path: '/quality-policy',
+        component: QualityPolicy
+    },
+    {
+        path: '/about',
+        component: About
+    }
 ]
-const router = createRouter({history: createWebHashHistory(), routes})
+const router = createRouter({ history: createWebHashHistory(), routes })
 
 
 export default router

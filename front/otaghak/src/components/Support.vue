@@ -8,12 +8,12 @@
 
       <div class="contact row mt-4">
         <div class="col-12 mb-3">
-          <strong>شماره پشتیبانی:</strong>
-          <a href="tel:02128111045">021-28111045</a>
+          <strong>آیدی پشتیبانی در ایتا:</strong>
+          <a href="id: @ava_shn">ava_shn</a>
         </div>
         <div class="col-12 mb-3">
           <strong>ایمیل پشتیبانی:</strong>
-          <a href="mailto:support@panah.example">support@panah.example</a>
+          <a href="mailto:avashahabi@gmail.com">avashahabi@gmail.com</a>
         </div>
         <div class="col-12 mb-3">
           <strong>ساعات پاسخگویی:</strong>
