@@ -13,32 +13,73 @@ from .permission import IsInspectorMember
  # Create your views here.
 
 
+from django.db.models import Q
+
 class RoomCreateWithImagesView(APIView):
     parser_classes = [MultiPartParser, FormParser]
     renderer_classes = [JSONRenderer]
-    authentication_classes=[JWTAuthentication]
-    def get_permissions(self): 
-       if self.request.method == 'GET': 
-         return [AllowAny()]
-       if self.request.method == 'POST':  
-         return [IsAuthenticated()]
-       return [AllowAny()]
+    authentication_classes = [JWTAuthentication]
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return [AllowAny()]
+
     def get(self, request):
-        query = request.query_params.get('search', '').strip()
-        instance = Rooms.objects.all()
-        if query:
-            instance = instance.filter(
-                Q(location__icontains=query) | Q(city__icontains=query)
+
+        rooms = Rooms.objects.all()
+
+        # جستجوی شهر یا موقعیت
+        city = request.query_params.get("city")
+        if city:
+            rooms = rooms.filter(
+                Q(city__icontains=city) |
+                Q(location__icontains=city)
             )
-        ser = RoomSer(instance=instance, many=True)
-        return Response(ser.data)
+
+        # سرویس خواب
+        bed_service = request.query_params.get("bed_service")
+        if bed_service:
+            rooms = rooms.filter(
+                Bed_Service__icontains=bed_service
+            )
+
+        # ظرفیت
+        capacity = request.query_params.get("capacity")
+        if capacity:
+            rooms = rooms.filter(
+                Accommodation_cap__icontains=capacity
+            )
+
+        # قیمت
+        price = request.query_params.get("price")
+        if price:
+            if price == "free":
+                rooms = rooms.filter(
+                    Q(price="0") |
+                    Q(price="0.0") |
+                    Q(price="0.00") |
+                    Q(price__iexact="رایگان")
+                )
+            else:
+                rooms = rooms.filter(
+                    price__icontains=price
+                )
+
+        serializer = RoomSer(rooms, many=True)
+        return Response(serializer.data)
+
     def post(self, request):
-        try: 
-          owner = User_home_owner.objects.get(user=request.user)
-        except User_home_owner.DoesNotExist : 
-          return Response( 
-                          {'message': "فقط میزبان میتواند اقامتگاه ثبت کند "}
-                          , status=status.HTTP_403_FORBIDDEN)
+        try:
+            owner = User_home_owner.objects.get(user=request.user)
+        except User_home_owner.DoesNotExist:
+            return Response(
+                {"message": "فقط میزبان میتواند اقامتگاه ثبت کند"},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
         serializer = RoomCreateWithImagesSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -46,12 +87,12 @@ class RoomCreateWithImagesView(APIView):
 
             return Response(
                 RoomSer(room).data,
-                status=status.HTTP_201_CREATED
+                status=status.HTTP_201_CREATED,
             )
 
         return Response(
             serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
+            status=status.HTTP_400_BAD_REQUEST,
         )
 #for this class url pattern is created
 class RoomDetail(APIView): 

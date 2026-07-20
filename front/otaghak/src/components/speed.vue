@@ -1,85 +1,113 @@
 <template>
-  <div class="speed d-flex justify-content-center">
-        <div class="speed-container ">
-            <div class="swiper-container d-flex flex-column align-items-center  ">
-            <div class="up w-100 d-flex  align-items-end ">
-                <div class="button w-50">
-                    <div class="lower-swiper-wrapper position-relative ms-5 mb-3">
-                    <button class="custom-prevy rounded-2 position-absolute"><i class="bi bi-caret-left"></i></button>
-                    <button class="custom-nexty rounded-2 position-absolute"><i class="bi bi-caret-right"></i></button>
+<div class="speed d-flex justify-content-center">
+
+    <div class="speed-container">
+
+        <div class="search-box">
+
+            <div class="title text-center mb-5">
+                <h3>جستجوی سریع</h3>
+                <p>اقامتگاه مناسب خود را سریع پیدا کنید</p>
+            </div>
+
+            <div class="row g-4">
+
+                <!-- شهر -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card p-3 h-100">
+
+                        <h5>📍 شهر یا استان</h5>
+
+                        <input
+                            class="form-control mt-3"
+                            v-model="city"
+                            placeholder="مثلاً تهران">
+
+                        <button
+                            class="btn btn-success mt-3 w-100"
+                            @click="searchCity">
+
+                            جستجو
+
+                        </button>
+
                     </div>
                 </div>
-                <div class="text  text-white w-50 d-flex flex-column align-items-end p-2  gap-3">
-                    <span class="fs-5 fw-bold">جستجوی سریع</span>
-                    <span class="fw-normal">تجربه اقامتی جذاب با تنوع اقامتگاه ها</span>
+
+                <!-- ظرفیت -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card p-3 h-100">
+
+                        <h5>👥 ظرفیت</h5>
+
+                        <select
+                            class="form-select mt-3"
+                            v-model="capacity">
+
+                            <option value="">انتخاب کنید</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>4</option>
+                            <option>6</option>
+                            <option>8</option>
+
+                        </select>
+
+                        <button
+                            class="btn btn-success mt-3 w-100"
+                            @click="searchCapacity">
+
+                            جستجو
+
+                        </button>
+
+                    </div>
                 </div>
-               
-            </div>
-            <div class="down ">
-                <swiper
-                :modules="[Navigation]"
-                :slides-per-view="6"
-                :space-between="12"
-                :navigation="{ nextEl: '.custom-nexty', prevEl: '.custom-prevy' }"
-                class="custom-swiper p-4">
-                <swiper-slide class="img d-flex flex-column rounded-2" @click="selectCity('رامسر')"><img src="./../../New_folder/ram.jpeg" alt="Image 1" class="img-fluid rounded-3"/>
-                <span class="text-end  p-2">رامسر</span>
-            </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-2" @click="selectCity('ماسال')">
-                    <img src="./../../New_folder/masa.jpeg" alt="Image 2" class="img-fluid rounded-3"/>
-                <span class="text-end p-2">ماسال</span>
-            </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-2 " @click="selectCity('کردان')"><img src="./../../New_folder/kord.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
-                <span class="text-end p-2">کردان</span>
-            </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-2 " @click="selectCity('تهران')"><img src="./../../New_folder/tehr.jpeg" alt="Image 1" class="img-fluid rounded-3"/>
-                <span class="text-end p-2">تهران</span>
-            </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-2 " @click="selectCity('بندر انزلی')"><img src="./../../New_folder/banda.jpeg" alt="Image 2" class="img-fluid rounded-3"/>
-                <span class="text-end p-2">بندر انزلی</span>
-            </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-3 " @click="selectCity('محمود آباد')"><img src="./../../New_folder/mahmo.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
-                <span class="text-end p-2">محمود آباد</span>
-            </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-3 " @click="selectCity('چالوس')"><img src="./../../New_folder/chal.jpeg" alt="Image 1" class="img-fluid rounded-3"/>
-                <span class="text-end p-2">چالوس</span>
-            </swiper-slide>
-                <swiper-slide class="img d-flex flex-column " @click="selectCity('کیش')"><img src="./../../New_folder/kish.jpeg" alt="Image 2" class="img-fluid rounded-3"/>
-                <span class="text-end p-2">کیش</span>
-            </swiper-slide>
-                <swiper-slide class="img d-flex flex-column rounded-3 " @click="selectCity('رشت')"><img src="./../../New_folder/rash.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
-                <span class="text-end p-2">رشت</span>
-            </swiper-slide>
 
-                <swiper-slide class="img d-flex flex-column  rounded-3 " @click="selectCity('نوشهر')"><img src="./../../New_folder/nosh.jpeg" alt="Image 3" class="img-fluid rounded-3"/>
-                    <span class="op text-end p-2">نوشهر</span>
-                </swiper-slide>
-            </swiper>
-   
+                <!-- سرویس خواب -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card p-3 h-100">
+
+                        <h5>🛏 سرویس خواب</h5>
+
+                        <input
+                            class="form-control mt-3"
+                            v-model="bedService"
+                            placeholder="مثلاً تخت">
+
+                        <button
+                            class="btn btn-success mt-3 w-100"
+                            @click="searchBed">
+
+                            جستجو
+
+                        </button>
+
+                    </div>
+                </div>
+
+                <!-- رایگان -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card p-3 h-100 d-flex justify-content-center">
+
+                        <h5>💚 اقامتگاه رایگان</h5>
+
+                        <button
+                            class="btn btn-success mt-4"
+                            @click="searchFree">
+
+                            مشاهده
+
+                        </button>
+
+                    </div>
+                </div>
+
             </div>
-                
-                
-           
+
         </div>
-        </div>
+
     </div>
+
+</div>
 </template>
-
-<script setup>
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { Navigation, Autoplay } from "swiper/modules";
-import 'swiper/css';
-import 'swiper/css/navigation';
-
-const emit = defineEmits(["select-city"]);
-
-const selectCity = (city) => {
-  emit("select-city", city);
-};
-
-</script>
-
-
-<style>
-@import '../assets/header.css';
-</style>
