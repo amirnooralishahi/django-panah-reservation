@@ -7,6 +7,9 @@ import Support from '../components/Support.vue';
 import Register from '../components/Register.vue';
 import RoomDetail from '../components/RoomDetail.vue';
 import NotFound from "@/components/NotFound.vue";
+import ReservationRules from '../components/ReservationRules.vue';
+import QualityPolicy from '../components/QualityPolicy.vue';
+import About from '../components/About.vue';
 const routes = [
     { path: '/', component: main },
     { path: '/room', component: main },
@@ -16,7 +19,6 @@ const routes = [
     { path: '/register', component: Register },
     { path: '/host', component: HostRegister },
     { path: '/support', component: Support },
-    { path: '/:pathMatch(.*)*', component: NotFound },
     {
         path: '/reservation-rules',
         component: ReservationRules
@@ -28,7 +30,8 @@ const routes = [
     {
         path: '/about',
         component: About
-    }
+    },
+    { path: '/:pathMatch(.*)*', component: NotFound },
 ]
 const router = createRouter({ history: createWebHashHistory(), routes })
 

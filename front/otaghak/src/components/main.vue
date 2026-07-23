@@ -270,11 +270,11 @@ function retuer() {
   click.value = !click.value;
 }
 
-async function loadRooms(search = "") {
+async function loadRooms(filters = {}) {
   loadingRooms.value = true;
   roomsError.value = "";
   try {
-    const data = await fetchRooms(search);
+    const data = await fetchRooms(filters);
     rooms.value = Array.isArray(data) ? data : data?.results || [];
   } catch (error) {
     roomsError.value = error.message || "بارگذاری اقامتگاه‌ها با خطا مواجه شد.";
@@ -302,19 +302,17 @@ const selectCity = async (city) => {
 
 // load based on route query
 watch(
-  () => route.query.search,
-  (s) => {
-    const q = s || "";
-    searchQuery.value = q;
+  () => ({ ...route.query }),
+  (q) => {
+    searchQuery.value = q.search || "";
     loadRooms(q);
   },
-  { immediate: true },
+  { immediate: true, deep: true },
 );
 
 onMounted(async () => {
-  const q = route.query.search || "";
-  searchQuery.value = q;
-  await loadRooms(q);
+  searchQuery.value = route.query.search || "";
+  await loadRooms({ ...route.query });
 });
 
 const onSwiperInit = (swiper) => {

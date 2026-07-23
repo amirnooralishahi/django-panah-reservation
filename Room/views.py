@@ -32,7 +32,9 @@ class RoomCreateWithImagesView(APIView):
         rooms = Rooms.objects.all()
 
         # جستجوی شهر یا موقعیت
-        city = request.query_params.get("city")
+        # فرانت‌اند برای جستجوی سریع بالای صفحه و شهرهای پیشنهادی از پارامتر
+        # "search" استفاده می‌کند، پس هر دو پارامتر "city" و "search" پذیرفته می‌شوند
+        city = request.query_params.get("city") or request.query_params.get("search")
         if city:
             rooms = rooms.filter(
                 Q(city__icontains=city) |
@@ -203,30 +205,39 @@ class uploadImage(APIView):
       ser.save()
       return Response({'message': 'image uploaded successfully'}, status=status.HTTP_201_CREATED)
     return Response({'message': 'invalid data', 'errors': ser.errors}, status=status.HTTP_400_BAD_REQUEST)
-  
-  class detailUploadImage(APIView):
+
+
+class detailUploadImage(APIView):
     renderer_classes = [JSONRenderer]
     authentication_classes = [JWTAuthentication]
 
     def get(self, request, pk):
-      instance = RoomImage.objects.get(pk=pk)
+      try:
+        instance = RoomImage.objects.get(pk=pk)
+      except RoomImage.DoesNotExist:
+        return Response({'message': 'this image is not available'}, status=status.HTTP_404_NOT_FOUND)
       ser = RoomImageSer(instance=instance)
       return Response(ser.data, status=status.HTTP_200_OK)
-    
-    def put(self,request,pk):   
-      instance = RoomImage.objects.get(id= pk) 
+
+    def put(self,request,pk):
+      try:
+        instance = RoomImage.objects.get(id=pk)
+      except RoomImage.DoesNotExist:
+        return Response({'message': 'this image is not available'}, status=status.HTTP_404_NOT_FOUND)
       ser = RoomImageSer(instance=instance,data=request.data,partial=True)
       if ser.is_valid():
          ser.save()
          return Response(ser.data,status=status.HTTP_202_ACCEPTED)
-      return Response(status=status.HTTP_401_UNAUTHORIZED)  
-    def delete(self,request,pk): 
-      instance = RoomImage.objects.get(id=pk)
-      if instance.DoesNotExist: 
+      return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    def delete(self,request,pk):
+      try:
+        instance = RoomImage.objects.get(id=pk)
+      except RoomImage.DoesNotExist:
         return Response({'message':'this image is not available'},status=status.HTTP_404_NOT_FOUND)
       instance.delete()
       return Response({'message':'with successfully deleted'})
-    
+
 
 
 class RoomReservationList(APIView):

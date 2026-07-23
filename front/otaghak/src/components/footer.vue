@@ -45,7 +45,7 @@
                     قوانین و مقررات رزرو
                   </router-link>
 
-                  <router-link to="/host-guide" class="detail">
+                  <router-link to="/host" class="detail">
                     قوانین و راهنمای میزبان
                   </router-link>
 

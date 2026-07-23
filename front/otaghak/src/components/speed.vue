@@ -111,3 +111,37 @@
 
 </div>
 </template>
+
+<script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const emit = defineEmits(["select-city"]);
+
+const router = useRouter();
+
+const city = ref("");
+const capacity = ref("");
+const bedService = ref("");
+
+function searchCity() {
+  const value = city.value.trim();
+  if (!value) return;
+  emit("select-city", value);
+}
+
+function searchCapacity() {
+  if (!capacity.value) return;
+  router.push({ path: "/room", query: { capacity: capacity.value } });
+}
+
+function searchBed() {
+  const value = bedService.value.trim();
+  if (!value) return;
+  router.push({ path: "/room", query: { bed_service: value } });
+}
+
+function searchFree() {
+  router.push({ path: "/room", query: { price: "free" } });
+}
+</script>

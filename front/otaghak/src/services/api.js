@@ -100,9 +100,17 @@ export async function createRoomWithImages(payload) {
   })
 }
 
-export async function fetchRooms(search = '') {
-  const query = search ? `?search=${encodeURIComponent(search)}` : ''
-  return request(`/room/${query}`)
+export async function fetchRooms(params = '') {
+  // Backward compatible: accepts either a plain search string or an object
+  // of filters, e.g. { search: 'تهران', capacity: '4', bed_service: 'تخت', price: 'free' }
+  const filters = typeof params === 'string' ? { search: params } : (params || {})
+
+  const query = Object.entries(filters)
+    .filter(([, value]) => value !== undefined && value !== null && value !== '')
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    .join('&')
+
+  return request(`/room/${query ? `?${query}` : ''}`)
 }
 
 export async function fetchRoomById(id) {
