@@ -2,7 +2,11 @@
   <router-link :to="`/room/${room?.id ?? ''}`" class="text-decoration-none text-dark">
     <div class="room-card rounded-4 overflow-hidden border shadow-sm h-100">
       <div class="room-image-wrapper position-relative">
-        <img :src="image" :alt="roomTitle" class="room-image" />
+        <img 
+  :src="roomImage" 
+  :alt="roomTitle" 
+  class="room-image"
+/>
         <span class="room-badge">اقامتگاه</span>
       </div>
       <div class="p-3">
@@ -28,11 +32,23 @@ const props = defineProps({
   room: {
     type: Object,
     default: () => ({})
-  },
-  image: {
-    type: String,
-    default: ''
   }
+})
+
+const roomImage = computed(() => {
+
+  if (props.room?.images && props.room.images.length > 0) {
+
+    let img = props.room.images[0].image
+
+    if (img.startsWith('http')) {
+      return img
+    }
+
+    return `http://127.0.0.1:8000${img.startsWith('/') ? img : '/' + img}`
+  }
+
+  return '/default-image.jpg'
 })
 
 const roomTitle = computed(() => props.room?.Dormitory || props.room?.dormitory || 'اقامتگاه')
