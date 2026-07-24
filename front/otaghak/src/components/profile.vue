@@ -375,10 +375,10 @@ try{
 }
 
 function cancelEditRoom() {
-  loading=true
+  loading.value=true
   editingRoomId.value = null;
   roomEdits.value = {};
-  loading = false
+  loading.value = false
 }
 
 async function saveRoom(id) {
