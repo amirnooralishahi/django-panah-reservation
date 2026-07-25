@@ -23,34 +23,59 @@ class RoomSer(serializers.ModelSerializer) :
       model=Rooms
       fields='__all__'
 
+def persian_to_english_number(value):
+    persian_numbers = "۰۱۲۳۴۵۶۷۸۹"
+    english_numbers = "0123456789"
 
+    translation_table = str.maketrans(
+        persian_numbers,
+        english_numbers
+    )
+
+    return str(value).translate(translation_table)
 
 class RoomCreateWithImagesSerializer(serializers.ModelSerializer):
+
     images = serializers.ListField(
         child=serializers.ImageField(),
         write_only=True,
         required=True
     )
 
+
+    def validate_Accommodation_cap(self, value):
+
+        value = persian_to_english_number(value)
+
+        return value
+
+
+    def validate_Bed_Service(self, value):
+
+        value = persian_to_english_number(value)
+
+        return value
+
+
     class Meta:
         model = Rooms
         fields = [
-    "id",
-    'owner',
-    "location",
-    "city",
-    "Dormitory",
-    "building_Information",
-    "Bed_Service",
-    "Toilet_Bathroom",
-    "Accommodation_cap",
-    "Perspective",
-    "Internal_Faclities",
-    "Additional_details",
-    "time_reserve",
-    "price",
-    "images",
-]
+            "id",
+            "owner",
+            "location",
+            "city",
+            "Dormitory",
+            "building_Information",
+            "Bed_Service",
+            "Toilet_Bathroom",
+            "Accommodation_cap",
+            "Perspective",
+            "Internal_Faclities",
+            "Additional_details",
+            "time_reserve",
+            "price",
+            "images",
+        ]
 
     def validate_images(self, value):
         if not value or len(value) == 0:
