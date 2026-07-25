@@ -216,13 +216,32 @@ const amount = ref("");
 const paymentMessage = ref("");
 const paymentError = ref("");
 const today = new Date().toISOString().split("T")[0];
-const galleryImages = [
-  "../../New_folder/room/1.webp",
-  "../../New_folder/room/326a8c93-9f7a-4230-9384-2f04672d0dfe.webp",
-  "../../New_folder/room/3d2e8edd-ea3f-43d1-a150-c527f0dd2a00.webp",
-  "../../New_folder/room/51264bea-af1d-435f-9ec4-9c09f6c0627a.webp",
-  "../../New_folder/room/653fe732-7139-4ac5-a519-0d9ad1c301b7.webp",
-];
+const BASE_URL = "https://amirhosseinnoori.pythonanywhere.com"
+
+
+const galleryImages = computed(() => {
+
+  const images = room.value?.images
+
+  if (images && images.length > 0) {
+
+    return images.map((item) => {
+
+      if (item.image.startsWith("http")) {
+        return item.image
+      }
+
+      return `${BASE_URL}${item.image.startsWith("/") ? item.image : "/" + item.image}`
+
+    })
+
+  }
+
+  return [
+    "/default-image.jpg"
+  ]
+
+})
 
 const roomTitle = computed(
   () => room.value?.Dormitory || room.value?.dormitory || "اقامتگاه",
@@ -240,7 +259,7 @@ const roomCapacity = computed(() => room.value?.Accommodation_cap || "نامشخ
 const roomBuildingInfo = computed(
   () => room.value?.building_Information || "ثبت نشده",
 );
-document.title='حزئیات اقامتگاه'
+document.title='جزئیات اقامتگاه'
 
 const roomBedService = computed(() => room.value?.Bed_Service || "ثبت نشده");
 const roomToilet = computed(() => room.value?.Toilet_Bathroom || "ثبت نشده");
