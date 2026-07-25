@@ -59,7 +59,7 @@
       >
         <item-room
           :room="room"
-          :image="previewImages[index % previewImages.length]"
+          :image="room.images?.length ? null : previewImages[index % previewImages.length]"
         />
       </div>
     </div>
