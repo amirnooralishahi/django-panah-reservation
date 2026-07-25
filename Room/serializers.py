@@ -11,17 +11,25 @@ class ReserveSer(serializers.ModelSerializer):
       fields = '__all__'
     
       
-class RoomImageSer(serializers.ModelSerializer): 
+class RoomImageSer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
     class Meta:
-      model=RoomImage
-      fields="__all__"
-      read_only_fields= ['room','uploaded_at']
-      
-class RoomSer(serializers.ModelSerializer) :
+      model = RoomImage
+      fields = "__all__"
+      read_only_fields = ['room', 'uploaded_at']
+
+    def get_image(self, obj):
+        request = self.context.get('request')
+        if request is not None:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
+
+class RoomSer(serializers.ModelSerializer):
   images = RoomImageSer(many=True, read_only=True)
   class Meta:
-      model=Rooms
-      fields='__all__'
+      model = Rooms
+      fields = '__all__'
 
 def persian_to_english_number(value):
     persian_numbers = "۰۱۲۳۴۵۶۷۸۹"

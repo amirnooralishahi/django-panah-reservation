@@ -216,31 +216,21 @@ const amount = ref("");
 const paymentMessage = ref("");
 const paymentError = ref("");
 const today = new Date().toISOString().split("T")[0];
-const BASE_URL = "https://amirhosseinnoori.pythonanywhere.com"
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
 
 const galleryImages = computed(() => {
-
   const images = room.value?.images
-
   if (images && images.length > 0) {
-
     return images.map((item) => {
-
-      if (item.image.startsWith("http")) {
-        return item.image
+      const imagePath = item?.image || ''
+      if (imagePath.startsWith('http')) {
+        return imagePath
       }
-
-      return `${BASE_URL}${item.image.startsWith("/") ? item.image : "/" + item.image}`
-
+      return `${API_BASE_URLSE_URL}${imagePath.startsWith('/') ? imagePath : '/' + imagePath}`
     })
-
   }
 
-  return [
-    "/default-image.jpg"
-  ]
-
+  return ['/default-image.jpg']
 })
 
 const roomTitle = computed(
@@ -317,6 +307,11 @@ onMounted(async () => {
   } catch (error) {
     errorMessage.value = error.message || "بارگذاری اقامتگاه با خطا مواجه شد.";
   } finally {
+    console.log('Room detail loaded', {
+      room: room.value,
+      images: room.value?.images,
+      galleryImages: galleryImages.value,
+    })
     loading.value = false;
   }
 });

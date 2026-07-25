@@ -70,7 +70,7 @@ class RoomCreateWithImagesView(APIView):
                     price__icontains=price
                 )
 
-        serializer = RoomSer(rooms, many=True)
+        serializer = RoomSer(rooms, many=True, context={'request': request})
         return Response(serializer.data)
 
     def post(self, request):
@@ -88,7 +88,7 @@ class RoomCreateWithImagesView(APIView):
             room = serializer.save(owner=owner)
 
             return Response(
-                RoomSer(room).data,
+                RoomSer(room, context={'request': request}).data,
                 status=status.HTTP_201_CREATED,
             )
 
@@ -97,37 +97,43 @@ class RoomCreateWithImagesView(APIView):
             status=status.HTTP_400_BAD_REQUEST,
         )
 #for this class url pattern is created
-class RoomDetail(APIView): 
+class RoomDetail(APIView):
   renderer_classes = [JSONRenderer]
   authentication_classes=[JWTAuthentication]
   def get_permissions(self):
      if self.request.method in ['PUT', 'DELETE']:
        return [IsAuthenticated()]
      return [AllowAny()]
+
   def get(self, request, pk):
     try:
       instance = Rooms.objects.get(id=pk)
     except Rooms.DoesNotExist:
       return Response({'message': 'this room is not available'}, status=status.HTTP_404_NOT_FOUND)
-    ser = RoomSer(instance=instance)
+
+    ser = RoomSer(instance=instance, context={'request': request})
     return Response(ser.data, status=status.HTTP_200_OK)
-  
-  def put(self,request, pk ) :
-    instance=get_object_or_404(Rooms,id=pk,owner__user=request.user)
-    if instance.owner.user !=request.user : 
-      return Response ( {'message' : "شما اجازه ویرایش این اقامتگاه را ندارید "}, 
-                       status=status.HTTP_403_FORBIDDEN)
-    ser= RoomSer(instance,data=request.data,partial=True)
-    if ser.is_valid( ):
-      ser.save( )
-      return Response(ser.data,status=status.HTTP_201_CREATED)
+
+  def put(self, request, pk):
+    instance = get_object_or_404(Rooms, id=pk, owner__user=request.user)
+    if instance.owner.user != request.user:
+      return Response(
+        {'message': 'شما اجازه ویرایش این اقامتگاه را ندارید '},
+        status=status.HTTP_403_FORBIDDEN,
+      )
+
+    ser = RoomSer(instance, data=request.data, partial=True, context={'request': request})
+    if ser.is_valid():
+      ser.save()
+      return Response(ser.data, status=status.HTTP_201_CREATED)
     return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
+
   def delete(self, request, pk):
     try:
-      instance =get_object_or_404(Rooms,id=pk,owner__user=request.user)
-      if instance.owner.user !=request.user: 
-        return Response( {'message': "شما اجازه حذف این اقامتگاه و نداری"})
-      
+      instance = get_object_or_404(Rooms, id=pk, owner__user=request.user)
+      if instance.owner.user != request.user:
+        return Response({'message': 'شما اجازه حذف این اقامتگاه و نداری'})
+
     except Rooms.DoesNotExist:
       return Response({'message': 'instance not found'}, status=status.HTTP_404_NOT_FOUND)
     instance.delete()
@@ -269,7 +275,8 @@ class MyRoomsView(APIView):
 
         serializer = MyRoomSer(
             rooms,
-            many=True
+            many=True,
+            context={'request': request}
         )
 
         return Response(serializer.data)
