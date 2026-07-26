@@ -98,6 +98,10 @@ class RoomCreateWithImagesView(APIView):
         )
 #for this class url pattern is created
 class RoomDetail(APIView):
+  parser_classes = [
+        MultiPartParser,
+        FormParser
+    ]
   renderer_classes = [JSONRenderer]
   authentication_classes=[JWTAuthentication]
   def get_permissions(self):
@@ -122,23 +126,21 @@ class RoomDetail(APIView):
         status=status.HTTP_403_FORBIDDEN,
       )
 
-    ser = RoomSer(instance, data=request.data, partial=True, context={'request': request})
+    ser = RoomCreateWithImagesSerializer(instance, data=request.data, partial=True, context={'request': request})
     if ser.is_valid():
       ser.save()
       return Response(ser.data, status=status.HTTP_201_CREATED)
     return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
 
   def delete(self, request, pk):
-    try:
+    
       instance = get_object_or_404(Rooms, id=pk, owner__user=request.user)
       if instance.owner.user != request.user:
         return Response({'message': 'شما اجازه حذف این اقامتگاه و نداری'})
 
-    except Rooms.DoesNotExist:
-      return Response({'message': 'instance not found'}, status=status.HTTP_404_NOT_FOUND)
-    instance.delete()
-    return Response({'message': 'room deleted successfully'}, status=status.HTTP_200_OK)
-    
+      instance.delete()
+      return Response({'message': 'room deleted successfully'}, status=status.HTTP_200_OK)
+      
 class reserveRoom(APIView):
   renderer_classes = [JSONRenderer]
   authentication_classes=[JWTAuthentication]

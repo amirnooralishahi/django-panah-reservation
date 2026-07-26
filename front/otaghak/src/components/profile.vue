@@ -19,7 +19,7 @@
       >
     </div>
     <div class="card shadow-sm border-0">
-      <div class="card-body ">
+      <div class="card-body">
         <div
           class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4"
         >
@@ -104,10 +104,13 @@
                     </div>
                   </div>
 
-                  <button class="btn btn-success mt-4":disabled="loading" @click="saveProfile">
+                  <button
+                    class="btn btn-success mt-4"
+                    :disabled="loading"
+                    @click="saveProfile"
+                  >
                     {{ loading ? "درحال ذخیره" : "ذخیره" }}
                   </button>
-                  
                 </div>
               </div>
             </div>
@@ -134,11 +137,7 @@
       <div v-if="myRooms.length">
         <h3>اقامتگاه های من</h3>
 
-        <div
-          v-for="room in myRooms"
-          :key="room.id"
-          class="card my-3 shadow"
-        >
+        <div v-for="room in myRooms" :key="room.id" class="card my-3 shadow">
           <img
             v-if="room.images.length"
             :src="'http://127.0.0.1:8000' + room.images[0].image"
@@ -154,12 +153,21 @@
 
               <p>قیمت: {{ room.price }}</p>
 
-              <button class="btn btn-warning me-2" :disabled="loading" @click="startEditRoom(room)">
-                {{loading ? "در حال ویرایش ...": "ویرایش"}}
-                            </button>
+              <button
+                class="btn btn-warning me-2"
+                :disabled="loading"
+                @click="startEditRoom(room)"
+              >
+                {{ loading ? "در حال ویرایش ..." : "ویرایش" }}
+              </button>
 
-              <button class="btn btn-danger" :disabled="loading" @click="removeRoom(room.id)">
-                {{ loading? "در حال حذف ..." :"حذف"}}              </button>
+              <button
+                class="btn btn-danger"
+                :disabled="loading"
+                @click="removeRoom(room.id)"
+              >
+                {{ loading ? "در حال حذف ..." : "حذف" }}
+              </button>
             </template>
 
             <template v-else>
@@ -194,13 +202,47 @@
                   placeholder="قیمت"
                 />
               </div>
+              <div class="mb-3">
+                <label class="form-label"> تصاویر جدید </label>
+                <div class="row mb-3">
+                  <div
+                    v-for="image in room.images"
+                    :key="image.id"
+                    class="col-md-3 text-center"
+                  >
+                    <img :src="image.image" class="img-fluid rounded" />
 
-              <button class="btn btn-success me-2" :disabled="loading" @click="saveRoom(room.id)">
-              {{ loading? "در حال ذخیره کردن" : "ذخیره" }}
+                    <button
+                      class="btn btn-danger btn-sm mt-2"
+                      @click="deleteImage(room, image.id)"
+                    >
+                      حذف
+                    </button>
+                    
+                
+                  </div>
+                </div>
+                <input
+                  class="form-control"
+                  type="file"
+                  multiple
+                  @change="handleImages"
+                />
+              </div>
+              <button
+                class="btn btn-success me-2"
+                :disabled="loading"
+                @click="saveRoom(room.id)"
+              >
+                {{ loading ? "در حال ذخیره کردن" : "ذخیره" }}
               </button>
 
-              <button class="btn btn-secondary" :disabled="loading" @click="cancelEditRoom">
-              {{ loading ? " در حال انصراف  داد " : "انصراف" }}
+              <button
+                class="btn btn-secondary"
+                :disabled="loading"
+                @click="cancelEditRoom"
+              >
+                {{ loading ? " در حال انصراف  داد " : "انصراف" }}
               </button>
             </template>
           </div>
@@ -256,13 +298,15 @@ import {
 } from "@/services/api";
 const myRooms = ref([]);
 const myReservations = ref([]);
-document.title='پروفایل'
+const selectedImages = ref([]);
+const deletedImages = ref([]);
+document.title = "پروفایل";
 
 const isHost = computed(
   () => localStorage.getItem("user_role") === "home_owner",
 );
-const saving =ref(false)
-const loading = ref(true)
+const saving = ref(false);
+const loading = ref(true);
 const message = ref("");
 const error = ref("");
 const profile = ref({
@@ -277,10 +321,16 @@ const profile = ref({
 // const hostRooms = ref([]);
 const editingRoomId = ref(null);
 const roomEdits = ref({});
+function handleImages(event) {
+  selectedImages.value = [...event.target.files];
+}
+function deleteImage(room, id) {
+  deletedImages.value.push(id);
 
-
+  myRooms.images = myRooms.images.filter((img) => img.id !== id);
+}
 async function loadProfile() {
-  loading.value = true
+  loading.value = true;
   message.value = "";
   error.value = "";
 
@@ -304,17 +354,15 @@ async function loadProfile() {
     if (profile.value.id) {
       localStorage.setItem("profile_id", profile.value.id);
     }
-
-    
   } catch (err) {
     error.value = err.message || "بارگذاری اطلاعات پروفایل با خطا مواجه شد.";
   }
-  loading.value=false
+  loading.value = false;
 }
 
 async function saveProfile() {
-  loading.value = true
-  saving.value=true
+  loading.value = true;
+  saving.value = true;
   message.value = "";
   error.value = "";
   try {
@@ -334,58 +382,70 @@ async function saveProfile() {
   } catch (err) {
     error.value = err.message || "ذخیره‌سازی با خطا مواجه شد.";
   }
-  saving.value=false
-  loading.value= false
+  saving.value = false;
+  loading.value = false;
 }
 
 function startEditRoom(room) {
-  loading.value=true
-try{
-  editingRoomId.value = room.id;
+  loading.value = true;
+  try {
+    editingRoomId.value = room.id;
 
-  roomEdits.value = {
-    location: room.location,
+    roomEdits.value = {
+      location: room.location,
 
-    city: room.city,
+      city: room.city,
 
-    price: room.price,
+      price: room.price,
 
-    Dormitory: room.Dormitory,
+      Dormitory: room.Dormitory,
 
-    building_Information: room.building_Information,
+      building_Information: room.building_Information,
 
-    Bed_Service: room.Bed_Service,
+      Bed_Service: room.Bed_Service,
 
-    Toilet_Bathroom: room.Toilet_Bathroom,
+      Toilet_Bathroom: room.Toilet_Bathroom,
 
-    Accommodation_cap: room.Accommodation_cap,
+      Accommodation_cap: room.Accommodation_cap,
 
-    Perspective: room.Perspective,
+      Perspective: room.Perspective,
 
-    Internal_Faclities: room.Internal_Faclities,
+      Internal_Faclities: room.Internal_Faclities,
 
-    Additional_details: room.Additional_details,
+      Additional_details: room.Additional_details,
 
-    time_reserve: room.time_reserve,
-  };
-}catch{ 
-  error.value="انجام نشد"
-}
-  loading.value = false
+      time_reserve: room.time_reserve,
+    };
+  } catch {
+    error.value = "انجام نشد";
+  }
+  loading.value = false;
 }
 
 function cancelEditRoom() {
-  loading.value=true
+  loading.value = true;
   editingRoomId.value = null;
   roomEdits.value = {};
-  loading.value = false
+  loading.value = false;
 }
 
 async function saveRoom(id) {
-  loading.value=true
+  loading.value = true;
   try {
-    const updated = await updateRoom(id, roomEdits.value);
+    const formData = new FormData();
 
+    Object.entries(roomEdits.value).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    selectedImages.value.forEach((file) => {
+      formData.append("images", file);
+    });
+    deletedImages.value.forEach((id) => {
+    formData.append("delete_images", id);
+});
+    const updated =await updateRoom(id, formData);
+      
     const index = myRooms.value.findIndex((room) => room.id === id);
 
     if (index !== -1) {
@@ -407,7 +467,7 @@ async function saveRoom(id) {
     error.value = "ویرایش انجام نشد";
     message.value = "";
   }
-  loading.value=false
+  loading.value = false;
 }
 
 onMounted(async () => {
@@ -423,16 +483,14 @@ onMounted(async () => {
 });
 async function removeRoom(id) {
   if (!confirm("آیا مطمئن هستید؟")) return;
-try{
-  await deleteRoom(id);
+  try {
+    await deleteRoom(id);
 
-  myRooms.value = myRooms.value.filter((room) => room.id !== id);
-  message.value = "اقامتگاه حذف شد";
-  
-}catch{ 
-  error.value = "حذف انجام نشد ";
-}
-  
+    myRooms.value = myRooms.value.filter((room) => room.id !== id);
+    message.value = "اقامتگاه حذف شد";
+  } catch {
+    error.value = "حذف انجام نشد ";
+  }
 }
 </script>
 

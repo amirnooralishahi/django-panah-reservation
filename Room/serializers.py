@@ -47,7 +47,7 @@ class RoomCreateWithImagesSerializer(serializers.ModelSerializer):
     images = serializers.ListField(
         child=serializers.ImageField(),
         write_only=True,
-        required=True
+        required=False
     )
 
 
@@ -96,6 +96,30 @@ class RoomCreateWithImagesSerializer(serializers.ModelSerializer):
         for image in images:
             RoomImage.objects.create(room=room, image=image)
         return room
+    
+    def update(self, instance, validated_data):
+        images = validated_data.pop("images", None)
+        delete_images = self.context["request"].data.getlist("delete_images")
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+
+        if delete_images:
+            RoomImage.objects.filter(
+                id__in=delete_images,
+                room=instance
+            ).delete()
+
+        if images:
+            for image in images:
+                RoomImage.objects.create(
+                    room=instance,
+                    image=image
+                )
+
+        return instance
 
 class ReservationDateSerializer(serializers.ModelSerializer):
 
@@ -152,3 +176,4 @@ class MyReservationSerializer(serializers.ModelSerializer):
             return first.image.url
 
         return None
+

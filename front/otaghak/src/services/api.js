@@ -120,7 +120,7 @@ export async function fetchRoomById(id) {
 export async function updateRoom(id, payload) {
   return request(`/room/detail/${id}`, {
     method: 'PUT',
-    body: JSON.stringify(payload),
+    body: payload,
   })
 }
 
