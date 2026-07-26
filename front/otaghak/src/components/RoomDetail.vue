@@ -184,14 +184,8 @@
                 @click="submitPayment"
                 :disabled="hasConflict"
               >
-                پرداخت
+                 پرداخت   
               </button>
-              <div v-if="paymentMessage" class="alert alert-success mt-3 mb-0">
-                {{ paymentMessage }}
-              </div>
-              <div v-if="paymentError" class="alert alert-danger mt-3 mb-0">
-                {{ paymentError }}
-              </div>
             </div>
           </div>
         </div>
@@ -202,11 +196,12 @@
 
 <script setup>
 import { computed, onMounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Header from "./header.vue";
 import { fetchRoomById, payForRoom, fetchReservations } from "@/services/api";
 const reservations = ref([]);
 const route = useRoute();
+const router = useRouter();
 const room = ref({});
 const loading = ref(true);
 const errorMessage = ref("");
@@ -226,7 +221,7 @@ const galleryImages = computed(() => {
       if (imagePath.startsWith('http')) {
         return imagePath
       }
-      return `${API_BASE_URLSE_URL}${imagePath.startsWith('/') ? imagePath : '/' + imagePath}`
+      return `${API_BASE_URL}${imagePath.startsWith('/') ? imagePath : '/' + imagePath}`
     })
   }
 
@@ -346,7 +341,7 @@ console.log(
 
     return;
   }
-
+  router.push('/reservation-success');
   try {
     const payload = {
       room_id: room.value.id,
@@ -359,6 +354,8 @@ console.log(
   } catch (error) {
     paymentError.value = error.message || "پرداخت انجام نشد.";
   }
+
+
 };
 const hasConflict = computed(() => {
   if (!reserveDate.value || !deliveryDate.value) return false;
