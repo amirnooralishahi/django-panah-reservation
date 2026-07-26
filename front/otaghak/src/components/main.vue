@@ -53,7 +53,7 @@
     </div>
     <div v-else class="row g-4">
       <div
-        v-for="(room, index) in rooms.slice(0, 6)"
+        v-for="(room, index) in displayedRooms"
         :key="room.id ?? room.Dormitory ?? index"
         class="col-12 col-md-6 col-lg-4"
       >
@@ -254,6 +254,7 @@ const rooms = ref([]);
 const loadingRooms = ref(true);
 const roomsError = ref("");
 const searchQuery = ref("");
+const showAll = ref(false);
 const route = useRoute();
 const router = useRouter();
 document.title='رزرو اقامتگاه'
@@ -269,6 +270,10 @@ const previewImages = [
 function retuer() {
   click.value = !click.value;
 }
+
+const displayedRooms = computed(() => {
+  return showAll.value ? rooms.value : rooms.value.slice(0, 6);
+})
 
 async function loadRooms(filters = {}) {
   loadingRooms.value = true;
@@ -300,7 +305,14 @@ const selectCity = async (city) => {
   });
 };
 
-// load based on route query
+// load based on route query and path
+watch(
+  () => route.path,
+  (path) => {
+    showAll.value = path === '/room';
+  },
+);
+
 watch(
   () => ({ ...route.query }),
   (q) => {
@@ -324,6 +336,7 @@ const onSlideChange = (swiper) => {
 };
 
 async function viewAll() {
+  showAll.value = true;
   searchQuery.value = "";
   await router.push({ path: "/room", query: {} });
   await loadRooms({});

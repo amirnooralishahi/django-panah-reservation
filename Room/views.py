@@ -52,7 +52,7 @@ class RoomCreateWithImagesView(APIView):
         capacity = request.query_params.get("capacity")
         if capacity:
             rooms = rooms.filter(
-                Accommodation_cap__icontains=capacity
+                Accommodation_cap__exact=capacity
             )
 
         # قیمت
