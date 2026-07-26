@@ -40,9 +40,9 @@
   <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h3 class="fw-bold text-end">اقامتگاه‌های پیشنهادی</h3>
-      <router-link to="/room" class="text-success fw-bold"
-        >مشاهده همه</router-link
-      >
+      <button @click="viewAll" class="btn btn-link text-success fw-bold p-0">
+        مشاهده همه
+      </button>
     </div>
 
     <div v-if="loadingRooms" class="text-center py-4">
@@ -234,7 +234,7 @@ import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import itemRoom from "./itemRoom.vue";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Destination from "./destination.vue";
 import Speed from "./speed.vue";
@@ -322,6 +322,12 @@ const onSwiperInit = (swiper) => {
 const onSlideChange = (swiper) => {
   activeIndex.value = swiper.realIndex;
 };
+
+async function viewAll() {
+  searchQuery.value = "";
+  await router.push({ path: "/room", query: {} });
+  await loadRooms({});
+}
 </script>
 
 <style>
