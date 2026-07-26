@@ -10,6 +10,8 @@ import NotFound from "@/components/NotFound.vue";
 import ReservationRules from '../components/ReservationRules.vue';
 import QualityPolicy from '../components/QualityPolicy.vue';
 import About from '../components/About.vue';
+import ReservationSuccess from '../components/ReservationSuccess.vue';
+
 const routes = [
     { path: '/', component: main },
     { path: '/room', component: main },
@@ -32,6 +34,10 @@ const routes = [
         component: About
     },
     { path: '/:pathMatch(.*)*', component: NotFound },
+    {
+        path:'/reservation-success',
+        component: ReservationSuccess
+    },
 ]
 const router = createRouter({ history: createWebHashHistory(), routes })
 
